@@ -11,9 +11,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { StreamingComponent } from './streaming/streaming.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, StreamingComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
