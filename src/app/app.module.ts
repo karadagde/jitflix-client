@@ -14,7 +14,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { StreamingComponent } from './streaming/streaming.component';
 
 @NgModule({
-  declarations: [AppComponent, StreamingComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
