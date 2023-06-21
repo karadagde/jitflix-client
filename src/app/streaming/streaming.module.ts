@@ -8,7 +8,7 @@ import { VjsPlayerComponent } from './video.component';
   declarations: [VjsPlayerComponent, StreamingComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild([{ path: '', component: StreamingComponent }]),
+    RouterModule.forChild([{ path: ':movie', component: StreamingComponent }]),
   ],
 })
 export class StreamingModule {}
