@@ -10,9 +10,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { FileUploadComponent } from '../file-upload/file-upload.component';
+import { FileUploadService } from '../file-upload/file-upload.service';
 
 @NgModule({
-  declarations: [ServerComponent],
+  declarations: [ServerComponent, FileUploadComponent],
+
   imports: [
     CommonModule,
     MatSlideToggleModule,
@@ -24,5 +27,6 @@ import { RouterModule } from '@angular/router';
     MatToolbarModule,
     RouterModule.forChild([{ path: '', component: ServerComponent }]),
   ],
+  providers: [FileUploadService],
 })
 export class ServerModule {}
