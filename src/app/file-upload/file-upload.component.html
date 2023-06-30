@@ -5,5 +5,12 @@
 
   <div *ngIf="uploadProgress$ | async as progress">
     <p>Upload Progress: {{ progress }}%</p>
+    <mat-progress-spinner
+      class="example-margin"
+      [color]="progress === 100 ? 'accent' : 'primary'"
+      [mode]="'determinate'"
+      [value]="progress"
+    >
+    </mat-progress-spinner>
   </div>
 </div>
