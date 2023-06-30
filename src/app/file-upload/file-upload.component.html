@@ -1,8 +1,9 @@
 <div>
   <h1>Will upload file here</h1>
-  <!-- <input #fileUpload type="file" />
-  <button (click)="onUpload()">Upload</button> -->
-  <input type="file" (change)="uploadFile()" #fileUpload />
-</div>
+  <input type="file" #fileUpload />
+  <button (click)="uploadFile()">Upload</button>
 
-<img src="http://localhost:8080/videos/download/s1.png" alt="image" />
+  <div *ngIf="uploadProgress$ | async as progress">
+    <p>Upload Progress: {{ progress }}%</p>
+  </div>
+</div>
