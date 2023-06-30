@@ -2,5 +2,7 @@
   <h1>Will upload file here</h1>
   <!-- <input #fileUpload type="file" />
   <button (click)="onUpload()">Upload</button> -->
-  <input type="file" (change)="onFileSelected($event)" />
+  <input type="file" (change)="uploadFile()" #fileUpload />
 </div>
+
+<img src="http://localhost:8080/videos/download/s1.png" alt="image" />

@@ -17,34 +17,30 @@ export class FileUploadComponent {
   @ViewChild('fileUpload') fileUpload!: ElementRef<HTMLInputElement>;
   constructor(private readonly service: FileUploadService) {}
 
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      //convert file to MULTIPART_FORM_DATA_VALUE
-      let formData = new FormData();
-      formData.append('file', file);
-      console.log(file);
-      console.log(file.name);
-      console.log(file.type);
-      console.log({ formData });
-      this.service.uploadFile(formData, file.name);
+  uploadFile() {
+    const files = this.fileUpload.nativeElement.files;
+    if (files && files.length > 0) {
+      const fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(files[0]);
+
+      fileReader.onload = async (event) => {
+        if (
+          !event.target ||
+          !event.target.result ||
+          typeof event.target.result === 'string'
+        ) {
+          return;
+        }
+        const content = event.target.result;
+        const size = 1000;
+        const totalChunks = content.byteLength / size;
+        const fileName = Math.random().toString(36).slice(-6) + files[0].name;
+
+        for (let i = 0; i < totalChunks + 1; i++) {
+          const chunk = content.slice(i * size, (i + 1) * size);
+          this.service.uploadFile(chunk, fileName, i, totalChunks);
+        }
+      };
     }
   }
-  // onUpload() {
-  //   console.log('Upload');
-  //   const files = this.fileUpload.nativeElement.files;
-  //   if (files && files.length > 0) {
-  //     const formData = new FormData();
-  //     //   // loop through all the selected files and add them to the formData object
-  //     for (let i = 0; i < files.length; i++) {
-  //       const file = files[i];
-  //       console.log(file);
-  //       formData.append('uploads[]', file, file.name);
-  //     }
-  //     console.log(formData);
-  //     console.log(this.fileUpload.nativeElement.files);
-  //     console.log(this.fileUpload.nativeElement.DOCUMENT_NODE);
-  //     this.service.uploadFile(formData, files[0].name);
-  //   }
-  // }
 }

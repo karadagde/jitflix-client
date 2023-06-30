@@ -6,9 +6,22 @@ import { catchError, tap } from 'rxjs';
 export class FileUploadService {
   constructor(private readonly http: HttpClient) {}
 
-  uploadFile(file: FormData, id: string) {
+  uploadFile(
+    file: ArrayBuffer,
+    id: string,
+    chunk: number,
+    totalChunks: number
+  ) {
     this.http
-      .post('http://localhost:8080/videos/upload/' + id, file)
+      .post('http://localhost:8080/videos/upload/large-file' + id, file, {
+        headers: {
+          'Content-Type': 'application/octet-stream',
+          'Content-Range': `bytes ${chunk}-${
+            chunk + file.byteLength
+          }/${totalChunks}`,
+          'Content-Length': `${file.byteLength}`,
+        },
+      })
       .pipe(
         tap((res) => console.log(res)),
         catchError((err) => {
