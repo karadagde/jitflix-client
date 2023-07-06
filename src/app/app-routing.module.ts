@@ -1,16 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () =>
-      import('./server/server.module').then((m) => m.ServerModule),
+    component: HomeComponent,
   },
   {
     path: 'streaming',
     loadChildren: () =>
       import('./streaming/streaming.module').then((m) => m.StreamingModule),
+  },
+  {
+    path: '**',
+    redirectTo: '',
   },
 ];
 
