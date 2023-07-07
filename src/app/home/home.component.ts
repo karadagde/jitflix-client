@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnInit,
   ViewChild,
@@ -31,7 +32,8 @@ export class HomeComponent implements OnInit {
   movies$: Observable<Movie[]> = this.homeService.movieSubject;
   constructor(
     private readonly homeService: HomeService,
-    private scrollDispatcher: ScrollDispatcher
+    private scrollDispatcher: ScrollDispatcher,
+    private cdRef: ChangeDetectorRef
   ) {}
   page: number = 0;
   size: number = 20;
@@ -67,10 +69,14 @@ export class HomeComponent implements OnInit {
         tap((y) => console.log(y)),
         pairwise(),
         tap(([prev, curr]) => console.log(prev, curr)),
-        filter(([y1, y2]) => y2 < y1 && y2 < 140)
+        filter(([y1, y2]) => y2 < y1 && y2 < 140),
+        map((data) => {
+          console.log(data);
+          this.nextPage();
+        })
       )
-      .subscribe(([prev, curr]) => {
-        this.nextPage();
+      .subscribe(() => {
+        this.cdRef.detectChanges();
       });
   }
 

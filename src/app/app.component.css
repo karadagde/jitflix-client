@@ -58,16 +58,9 @@ ul {
 }
 
 
-html,
-body,
-app-root {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-}
 
-div[cdkScrollable] {
+
+/* div[cdkScrollable] {
       overflow: auto;
       height: 100%;
-}
+} */
