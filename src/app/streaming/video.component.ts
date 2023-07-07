@@ -46,7 +46,9 @@ export class VjsPlayerComponent implements AfterViewInit, OnInit {
       sources: [
         {
           src:
-            'http://localhost:8080/movies/watch/' + this.movieId + '/playlist',
+            'http://localhost:8080/movies/watch/' +
+            this.movieId +
+            '/playlist/local',
           type: 'application/x-mpegURL',
           withCredentials: true,
         },

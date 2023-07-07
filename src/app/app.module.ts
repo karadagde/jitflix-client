@@ -17,9 +17,11 @@ import { HomeComponent } from './home/home.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { HomeService } from './home/home.service';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { SideNavDialogComponent } from './side-nav-dialog/side-nav-dialog.component';
 
 @NgModule({
-  declarations: [AppComponent, FileUploadComponent, HomeComponent],
+  declarations: [AppComponent, FileUploadComponent, HomeComponent, SideNavDialogComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -34,6 +36,7 @@ import { MatCardModule } from '@angular/material/card';
     MatToolbarModule,
     MatSidenavModule,
     MatCardModule,
+    MatDialogModule,
   ],
   providers: [FileUploadService, HomeService],
   bootstrap: [AppComponent],
