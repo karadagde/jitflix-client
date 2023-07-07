@@ -19,9 +19,15 @@ import { HomeService } from './home/home.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SideNavDialogComponent } from './side-nav-dialog/side-nav-dialog.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
-  declarations: [AppComponent, FileUploadComponent, HomeComponent, SideNavDialogComponent],
+  declarations: [
+    AppComponent,
+    FileUploadComponent,
+    HomeComponent,
+    SideNavDialogComponent,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -37,6 +43,7 @@ import { SideNavDialogComponent } from './side-nav-dialog/side-nav-dialog.compon
     MatSidenavModule,
     MatCardModule,
     MatDialogModule,
+    ScrollingModule,
   ],
   providers: [FileUploadService, HomeService],
   bootstrap: [AppComponent],
