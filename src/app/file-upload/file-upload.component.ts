@@ -3,12 +3,8 @@ import { FileUploadService } from './file-upload.service';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import {
   tap,
-  forkJoin,
   Observable,
-  Observer,
   BehaviorSubject,
-  throttleTime,
-  throttle,
   concatMap,
   delay,
   from,

@@ -2,11 +2,12 @@
   <button
     mat-icon-button
     aria-label=" icon-button with menu icon"
+    style="color: red"
     (click)="openDialog()"
   >
     <mat-icon>menu</mat-icon>
   </button>
-  <span>Jitflix</span>
+  <span style="color: red; font-size: 35px">{{ "Jitflix" | uppercase }}</span>
   <span class="toolbar-spacer"></span>
   <button mat-icon-button aria-label=" icon-button with heart icon">
     <mat-icon>favorite</mat-icon>

@@ -2,28 +2,24 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  OnInit,
+  Input,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+
 import videojs from 'video.js';
 
 @Component({
   selector: 'app-vjs-player',
   templateUrl: './video.component.html',
 })
-export class VjsPlayerComponent implements AfterViewInit, OnInit {
+export class VjsPlayerComponent implements AfterViewInit {
   @ViewChild('videoPlayer', { static: true }) videoPlayerRef!: ElementRef;
-  movieId: string | null = null;
-  // need to create constructor and ngOnit so we can read the path parameter from the URL
-  constructor(private route: ActivatedRoute) {}
+  @Input() movieId!: string;
 
-  ngOnInit(): void {
-    this.movieId = this.route.snapshot.paramMap.get('movie');
-    console.log(this.movieId);
-  }
+  constructor() {}
 
   ngAfterViewInit(): void {
+    this.movieId = 'reloaded';
     const videoPlayer = videojs(this.videoPlayerRef.nativeElement, {
       autoplay: true,
       controls: true,

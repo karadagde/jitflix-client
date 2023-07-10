@@ -5,20 +5,11 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { HomeService, Movie } from './home.service';
-import {
-  Observable,
-  debounceTime,
-  filter,
-  map,
-  of,
-  pairwise,
-  switchMap,
-  take,
-  tap,
-  throttleTime,
-} from 'rxjs';
+import { HomeService } from './home.service';
+import { Observable, debounceTime, filter, map } from 'rxjs';
 import { CdkScrollable, ScrollDispatcher } from '@angular/cdk/scrolling';
+import { Movie } from '../interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -33,29 +24,11 @@ export class HomeComponent implements OnInit {
   constructor(
     private readonly homeService: HomeService,
     private scrollDispatcher: ScrollDispatcher,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private readonly route: Router
   ) {}
   page: number = 0;
   size: number = 20;
-
-  // ngOnInit(): void {
-  //   this.homeService.getHomeData$(this.page, this.size);
-  // }
-
-  // ngOnInit(): void {
-  //   this.homeService.getHomeData$(this.page, this.size);
-
-  //   this.scrollDispatcher
-  //     .scrolled()
-  //     .pipe(
-  //       debounceTime(150),
-  //       filter((event) => !!event),
-  //       map((event) => event as CdkScrollable),
-  //       pairwise(),
-  //       filter(([prev, curr]) => curr.measureScrollOffset('bottom') < 200)
-  //     )
-  //     .subscribe((_) => this.nextPage());
-  // }
 
   ngOnInit(): void {
     this.homeService.getHomeData$(this.page, this.size);
@@ -63,19 +36,15 @@ export class HomeComponent implements OnInit {
     this.scrollDispatcher
       .scrolled()
       .pipe(
-        throttleTime(200),
-        tap((_) => console.log('scrolling')),
-        map(() => this.scrollable.measureScrollOffset('bottom')),
-        tap((y) => console.log(y)),
-        pairwise(),
-        tap(([prev, curr]) => console.log(prev, curr)),
-        filter(([y1, y2]) => y2 < y1 && y2 < 140),
-        map((data) => {
-          console.log(data);
-          this.nextPage();
-        })
+        debounceTime(150),
+        filter((event) => !!event),
+        map((event) => event as CdkScrollable),
+
+        filter((scrollable) => scrollable.measureScrollOffset('bottom') < 200)
       )
-      .subscribe(() => {
+      .subscribe((_) => {
+        this.nextPage();
+
         this.cdRef.detectChanges();
       });
   }
@@ -83,5 +52,9 @@ export class HomeComponent implements OnInit {
   nextPage() {
     this.page++;
     this.homeService.getHomeData$(this.page, this.size);
+  }
+
+  navigateToMovie(movie: Movie) {
+    this.route.navigate(['/streaming', movie.id]);
   }
 }

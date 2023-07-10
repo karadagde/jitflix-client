@@ -9,13 +9,13 @@
 html,
 body {
       height: 100%;
-      overflow: hidden;
+      /* overflow: hidden; */
 }
 
 body {
       margin: 0;
       font-family: Roboto, "Helvetica Neue", sans-serif;
-      overflow: hidden;
+      /* overflow: hidden; */
 }
 
 html,
@@ -24,6 +24,6 @@ app-root {
       height: 100%;
       margin: 0;
       padding: 0;
-      overflow: hidden;
+      /* overflow: hidden; */
 
 }

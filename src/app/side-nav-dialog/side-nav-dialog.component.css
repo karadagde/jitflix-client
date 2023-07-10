@@ -29,3 +29,17 @@
       gap: 10px;
       width: fit-content;
 }
+
+.side-nav-dialog {
+      overflow: hidden;
+      /* height: 100%; */
+      -ms-overflow-style: none;
+      /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
+
+}
+
+.side-nav-dialog::-webkit-scrollbar {
+      display: none;
+}
