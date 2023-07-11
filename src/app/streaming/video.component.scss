@@ -733,19 +733,19 @@ $progress-position: -2.5em;
   animation-delay: 2s;
 }
 
-#vjs_video_3
-  > div.vjs-control-bar
+div.vjs-control-bar
   > button.vjs-play-control.vjs-control.vjs-button.vjs-playing
   > span.vjs-icon-placeholder::before,
-#vjs_video_3
-  > div.vjs-control-bar
+div.vjs-control-bar
+  > button.vjs-play-control.vjs-control.vjs-button.vjs-paused
+  > span.vjs-icon-placeholder::before,
+div.vjs-control-bar
   > button.vjs-fullscreen-control.vjs-control.vjs-button
   > span.vjs-icon-placeholder::before {
   content: none;
 }
 
-#vjs_video_3
-  > div.vjs-control-bar
+div.vjs-control-bar
   > div.vjs-volume-panel.vjs-control.vjs-volume-panel-horizontal
   > div {
   align-items: center;
@@ -758,10 +758,10 @@ $progress-position: -2.5em;
 // }
 
 #vjs_video_3
-  > div.vjs-control-bar
+  div.vjs-control-bar
   > div.vjs-volume-panel.vjs-control.vjs-volume-panel-horizontal
   > div {
-  // transition: all 2s ease-in-out;
+  transition: all 1s ease-in-out;
   transition: width 0.8s ease;
 }
 
