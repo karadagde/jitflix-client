@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Input,
@@ -14,7 +13,6 @@ import videojs from 'video.js';
   selector: 'app-vjs-player',
   templateUrl: './video.component.html',
   styleUrls: ['./video.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 export class VjsPlayerComponent implements AfterViewInit {

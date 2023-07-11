@@ -376,7 +376,7 @@ $secondary-foreground-color: #b7090b;
 $primary-background-color: #262626; // #2B333F default
 // Try changing to true
 $center-big-play-button: true; // true default
-$big-play-button: false; // hide big play button
+// $big-play-button: false; // hide big play button
 $controls-margin: 2em;
 // Make a slightly lighter version of the main background
 // for the slider background.
@@ -432,11 +432,11 @@ $progress-position: -2.5em;
   /* 0.3em = 9px default */
   border-radius: 50%;
 
-  @if $big-play-button {
-    display: block;
-  } @else {
-    display: none;
-  }
+  // @if $big-play-button {
+  //   display: block;
+  // } @else {
+  //   display: none;
+  // }
 
   @if $center-big-play-button {
     /* Align center */
