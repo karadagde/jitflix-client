@@ -11,6 +11,7 @@ import videojs from 'video.js';
 @Component({
   selector: 'app-vjs-player',
   templateUrl: './video.component.html',
+  styleUrls: ['./video.component.css'],
 })
 export class VjsPlayerComponent implements AfterViewInit {
   @ViewChild('videoPlayer', { static: true }) videoPlayerRef!: ElementRef;
@@ -21,7 +22,6 @@ export class VjsPlayerComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.movieId = 'reloaded';
     const videoPlayer = videojs(this.videoPlayerRef.nativeElement, {
-      autoplay: true,
       controls: true,
       controlBar: {
         volumePanel: {
@@ -32,8 +32,10 @@ export class VjsPlayerComponent implements AfterViewInit {
           backward: 10,
         },
       },
-      muted: true,
-      // fluid: true,
+      muted: false,
+      poster:
+        'https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SY1000_SX677_AL_.jpg',
+      fluid: true,
       aspectRatio: '16:9',
       playbackRates: [0.5, 1, 1.5, 2],
       VideoPlaybackQuality: {
@@ -49,6 +51,7 @@ export class VjsPlayerComponent implements AfterViewInit {
           withCredentials: true,
         },
       ],
+      autoplay: false,
     });
 
     videoPlayer.play();

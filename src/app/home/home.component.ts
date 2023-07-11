@@ -44,7 +44,6 @@ export class HomeComponent implements OnInit {
       )
       .subscribe((_) => {
         this.nextPage();
-
         this.cdRef.detectChanges();
       });
   }

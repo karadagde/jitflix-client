@@ -18,6 +18,8 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      transition: all .4s ease-in-out;
+      text-shadow: 0 0 1px rgb(255, 255, 255);
 }
 
 .side-nav-list {
@@ -37,9 +39,27 @@
       /* IE and Edge */
       scrollbar-width: none;
       /* Firefox */
+      height: -webkit-fill-available;
 
 }
 
 .side-nav-dialog::-webkit-scrollbar {
       display: none;
+}
+
+.side-nav-dialog>ul>li>a:hover {
+
+      transform: scale(1.1) translate3d(5px, 0%, 3em);
+      transform-style: preserve-3d;
+      color: #fff;
+      /* box-shadow: 0 0 5px #ffee10; */
+      text-shadow: 0 0 20px white;
+
+}
+
+a mat-icon {
+      text-shadow: 0 0 1px rgb(255, 255, 255);
+      /* font-size: 30px; */
+      /* color: #000; */
+      /* transition: all .4s ease-in-out; */
 }

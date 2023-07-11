@@ -1,17 +1,7 @@
 <div cdkScrollable #scrollable style="height: 100vh; overflow: auto">
   <ng-container *ngIf="movies$ | async as movies">
-    <div
-      style="
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin: auto;
-        margin-top: 5rem;
-        max-width: 1280px;
-      "
-    >
-      <mat-card class="example-card" *ngFor="let movie of movies">
+    <div class="card-container">
+      <mat-card class="example-card grow" *ngFor="let movie of movies">
         <img
           mat-card-image
           src="{{
@@ -38,6 +28,14 @@
         </mat-card-actions>
       </mat-card>
     </div>
-    <button (click)="nextPage()">Load more</button>
+
+    <button
+      (click)="nextPage()"
+      class="load-more-button"
+      type="button"
+      mat-raised-button
+    >
+      Load more
+    </button>
   </ng-container>
 </div>
