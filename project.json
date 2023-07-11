@@ -10,27 +10,17 @@
       "executor": "@angular-devkit/build-angular:browser",
       "options": {
         "outputPath": "dist/server-app",
-        "allowedCommonJsDependencies": [
-          "video.js"
-        ],
+        "allowedCommonJsDependencies": ["video.js"],
         "index": "src/index.html",
         "main": "src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "tsconfig.app.json",
-        "assets": [
-          "src/favicon.ico",
-          "src/assets"
-        ],
+        "assets": ["src/favicon.ico", "src/assets"],
         "styles": [
           "@angular/material/prebuilt-themes/purple-green.css",
-          "src/styles.css",
-          "node_modules/video.js/dist/video-js.css"
+          "src/styles.css"
         ],
-        "scripts": [
-          "node_modules/video.js/dist/video.js"
-        ]
+        "scripts": ["node_modules/video.js/dist/video.js"]
       },
       "configurations": {
         "production": {
@@ -58,9 +48,7 @@
         }
       },
       "defaultConfiguration": "production",
-      "outputs": [
-        "{options.outputPath}"
-      ]
+      "outputs": ["{options.outputPath}"]
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
@@ -83,23 +71,15 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "polyfills": [
-          "zone.js",
-          "zone.js/testing"
-        ],
+        "polyfills": ["zone.js", "zone.js/testing"],
         "tsConfig": "tsconfig.spec.json",
-        "assets": [
-          "src/favicon.ico",
-          "src/assets"
-        ],
+        "assets": ["src/favicon.ico", "src/assets"],
         "styles": [
           "@angular/material/prebuilt-themes/purple-green.css",
           "src/styles.css",
           "node_modules/video.js/dist/video-js.css"
         ],
-        "scripts": [
-          "node_modules/video.js/dist/video.js"
-        ]
+        "scripts": ["node_modules/video.js/dist/video.js"]
       }
     }
   }

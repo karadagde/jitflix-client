@@ -1,9 +1,11 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Input,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 
 import videojs from 'video.js';
@@ -11,7 +13,9 @@ import videojs from 'video.js';
 @Component({
   selector: 'app-vjs-player',
   templateUrl: './video.component.html',
-  styleUrls: ['./video.component.css'],
+  styleUrls: ['./video.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class VjsPlayerComponent implements AfterViewInit {
   @ViewChild('videoPlayer', { static: true }) videoPlayerRef!: ElementRef;
@@ -25,7 +29,7 @@ export class VjsPlayerComponent implements AfterViewInit {
       controls: true,
       controlBar: {
         volumePanel: {
-          inline: false,
+          inline: true,
         },
         skipButtons: {
           forward: 10,
