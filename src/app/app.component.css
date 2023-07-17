@@ -1,0 +1,73 @@
+.toolbar-spacer {
+      flex: 1 1 auto;
+}
+
+.example-container {
+      /* width: 100%;
+      height: 100%; */
+      margin: 0;
+      border: 1px solid #555;
+      overflow: hidden;
+
+}
+
+mat-toolbar {
+      position: fixed;
+      top: 0;
+      z-index: 9990099;
+}
+
+mat-sidenav {
+      width: 300px;
+      height: 100%;
+      /* z-index: 1000; */
+      position: fixed;
+      left: 0;
+
+      padding: 20px;
+}
+
+a {
+      text-decoration: none;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+}
+
+a>span {
+      font-size: large;
+}
+
+ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0 0 0 10px;
+      width: 100%;
+
+}
+
+
+::ng-deep .custom-modalbox {
+
+      transform: translateX(100%);
+      transition: transform 0.5s ease-out;
+}
+
+::ng-deep .cdk-overlay-backdrop-showing .custom-modalbox {
+      transform: translateX(200%);
+}
+
+::ng-deep .custom-modalbox.animate-close {
+      transform: translateX(0%) !important;
+      transition: transform 0.5 ease-out;
+}
+
+
+
+
+
+/* div[cdkScrollable] {
+      overflow: auto;
+      height: 100%;
+} */

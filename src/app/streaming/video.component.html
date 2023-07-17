@@ -1,11 +1,9 @@
-<div style="margin-left: 2rem">
-  <h1 style="color: brown">Jitflix</h1>
-
-  <div style="margin-top: 2%; max-width: 1024px">
-    <video #videoPlayer class="video-js vjs-default-skin vjs-16-9"></video>
-    <div
-      class="vjs-big-play-button"
-      style="top: 50%; left: 50%; transform: translate(-50%, -50%)"
-    ></div>
+<div style="max-width: 1280px; min-width: 1024px">
+  <div style="max-width: 1280px; min-width: 1024px">
+    <video
+      #videoPlayer
+      class="video-js vjs-default-skin vjs-matrix vjs-16-9 vjs-big-play-centered vjs-show-big-play-button-on-pause"
+      [autoplay]="false"
+    ></video>
   </div>
 </div>

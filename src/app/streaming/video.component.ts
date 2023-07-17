@@ -2,42 +2,42 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  OnInit,
+  Input,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+
 import videojs from 'video.js';
 
 @Component({
   selector: 'app-vjs-player',
   templateUrl: './video.component.html',
+  styleUrls: ['./video.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
-export class VjsPlayerComponent implements AfterViewInit, OnInit {
+export class VjsPlayerComponent implements AfterViewInit {
   @ViewChild('videoPlayer', { static: true }) videoPlayerRef!: ElementRef;
-  movieId: string | null = null;
-  // need to create constructor and ngOnit so we can read the path parameter from the URL
-  constructor(private route: ActivatedRoute) {}
+  @Input() movieId!: string;
 
-  ngOnInit(): void {
-    this.movieId = this.route.snapshot.paramMap.get('movie');
-    console.log(this.movieId);
-  }
+  constructor() {}
 
   ngAfterViewInit(): void {
+    this.movieId = 'reloaded';
     const videoPlayer = videojs(this.videoPlayerRef.nativeElement, {
-      autoplay: true,
       controls: true,
       controlBar: {
         volumePanel: {
-          inline: false,
+          inline: true,
         },
         skipButtons: {
           forward: 10,
           backward: 10,
         },
       },
-      muted: true,
-      // fluid: true,
+      muted: false,
+      poster:
+        'https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SY1000_SX677_AL_.jpg',
+      fluid: true,
       aspectRatio: '16:9',
       playbackRates: [0.5, 1, 1.5, 2],
       VideoPlaybackQuality: {
@@ -45,11 +45,15 @@ export class VjsPlayerComponent implements AfterViewInit, OnInit {
       },
       sources: [
         {
-          src: 'http://localhost:8080/videos/' + this.movieId + '/master.m3u8',
+          src:
+            'http://localhost:8080/movies/watch/' +
+            this.movieId +
+            '/playlist/local',
           type: 'application/x-mpegURL',
           withCredentials: true,
         },
       ],
+      autoplay: false,
     });
 
     videoPlayer.play();
