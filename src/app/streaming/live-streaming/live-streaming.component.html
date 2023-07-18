@@ -1,0 +1,28 @@
+<div class="liveStream-container">
+  <video #liveVideo [autoplay]="true" controls></video>
+  <form [formGroup]="form">
+    <mat-form-field>
+      <mat-label>Video</mat-label>
+      <mat-select formControlName="videoOptions">
+        <mat-option
+          *ngFor="let camera of videoDevices"
+          [value]="camera.deviceId"
+        >
+          {{ camera.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Audio</mat-label>
+      <mat-select formControlName="audioOptions">
+        <mat-option
+          *ngFor="let microphone of audioDevices"
+          [value]="microphone.deviceId"
+        >
+          {{ microphone.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>

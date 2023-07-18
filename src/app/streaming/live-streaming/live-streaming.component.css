@@ -1,0 +1,21 @@
+.liveStream-container {
+      margin: auto;
+      margin-top: 8rem;
+      display: flex;
+      gap: 1rem;
+
+}
+
+.liveStream-container>video {
+      margin-left: 2rem;
+      height: 720px;
+      aspect-ratio: 4/3
+}
+
+.liveStream-container>form {
+      margin-left: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+}
