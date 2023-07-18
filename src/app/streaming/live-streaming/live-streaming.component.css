@@ -3,12 +3,13 @@
       margin-top: 8rem;
       display: flex;
       gap: 1rem;
+      flex-wrap: wrap;
 
 }
 
 .liveStream-container>video {
       margin-left: 2rem;
-      height: 720px;
+      max-height: 720px;
       aspect-ratio: 4/3
 }
 

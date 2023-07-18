@@ -25,4 +25,11 @@
       </mat-select>
     </mat-form-field>
   </form>
+  <mat-form-field>
+    <mat-label>Socket-message</mat-label>
+    <textarea matInput [formControl]="freeText"> </textarea>
+  </mat-form-field>
+  <button mat-flat-button color="primary" (click)="sendMessage()" type="button">
+    Send Message
+  </button>
 </div>

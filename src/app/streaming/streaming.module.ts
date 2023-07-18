@@ -10,6 +10,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { ReceiveStreamComponent } from './live-streaming/receive-stream/receive-stream.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { ReceiveStreamComponent } from './live-streaming/receive-stream/receive-
     MatFormFieldModule,
     MatOptionModule,
     MatSelectModule,
+    MatInputModule,
+    MatButtonModule,
   ],
 })
 export class StreamingModule {}

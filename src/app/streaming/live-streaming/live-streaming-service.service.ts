@@ -3,7 +3,13 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class LiveStreamingService {
   conn: WebSocket;
-  configuration = undefined;
+  configuration = {
+    iceServers: [
+      {
+        urls: 'stun:stun2.1.google.com:19302',
+      },
+    ],
+  };
 
   peerConnection: RTCPeerConnection;
 
@@ -12,6 +18,7 @@ export class LiveStreamingService {
     this.conn = new WebSocket('ws://localhost:8080/socket');
     this.peerConnection = new RTCPeerConnection(this.configuration);
     this.dataChannel = this.peerConnection.createDataChannel('dataChannel');
+    console.log('channel', this.conn, this.peerConnection, this.dataChannel);
   }
 
   send(message: any) {
@@ -19,6 +26,7 @@ export class LiveStreamingService {
   }
 
   addListeners() {
+    console.log('adding listeners');
     this.dataChannel.onerror = function (error) {
       console.log('Error:', error);
     };
@@ -27,6 +35,7 @@ export class LiveStreamingService {
     };
   }
   createOffer(message: any) {
+    console.log('creating offer');
     this.peerConnection
       .createOffer()
       .then((offer) => {

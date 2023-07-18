@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy,
+  // ChangeDetectionStrategy,
   Component,
   ElementRef,
   OnDestroy,
@@ -14,7 +14,7 @@ import { LiveStreamingService } from './live-streaming-service.service';
   selector: 'app-live-streaming',
   templateUrl: './live-streaming.component.html',
   styleUrls: ['./live-streaming.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [LiveStreamingService],
 })
 export class LiveStreamingComponent implements OnInit, OnDestroy {
@@ -35,7 +35,10 @@ export class LiveStreamingComponent implements OnInit, OnDestroy {
   form: FormGroup = new FormGroup({
     videoOptions: new FormControl('', Validators.required),
     audioOptions: new FormControl('', Validators.required),
+    // freeText: new FormControl(''),
   });
+
+  freeText = new FormControl('');
 
   selectCamera() {
     return this.form.get('videoOptions')?.value;
@@ -43,6 +46,9 @@ export class LiveStreamingComponent implements OnInit, OnDestroy {
 
   selectMicrophone() {
     return this.form.get('audioOptions')?.value;
+  }
+  getText() {
+    return this.freeText.value;
   }
 
   async playVideoFromCamera() {
@@ -91,11 +97,15 @@ export class LiveStreamingComponent implements OnInit, OnDestroy {
         }
       );
 
-      stream.getTracks().forEach((track) => {
-        // peerConnection.addTrack(track, localStream);
-        console.log(track);
-      });
-
+      console.log(this.liveStreamingService.peerConnection);
+      console.log(stream);
+      console.log(stream.getTracks());
+      stream
+        .getTracks()
+        .forEach((track) =>
+          this.liveStreamingService.peerConnection.addTrack(track, stream)
+        );
+      // this.liveStreamingService.peerConnection.addTrack(stream);
       this.liveVideo.nativeElement.srcObject = stream;
     } catch (error) {
       console.error('Error opening video camera.', error);
@@ -129,12 +139,18 @@ export class LiveStreamingComponent implements OnInit, OnDestroy {
           this.setInputDevices(constraints);
         }
       });
-
-    this.liveStreamingService.createOffer({ test: 'test 1' });
   }
 
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+  sendMessage() {
+    const message = this.getText();
+    if (message) {
+      this.liveStreamingService.send(message);
+      this.freeText.patchValue('');
+      this.freeText.markAsPristine();
+    }
   }
 }
