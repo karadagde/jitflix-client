@@ -1,96 +1,90 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, scan } from 'rxjs';
 
 @Injectable()
-export class LiveStreamingService {
-  conn: WebSocket;
-  configuration = {
+export class StreamingService {
+  private configuration = {
     iceServers: [
       {
-        urls: 'stun:stun2.1.google.com:19302',
+        urls: 'stun:stun.l.google.com:19302',
       },
     ],
   };
+  private peerConnection: RTCPeerConnection = new RTCPeerConnection(
+    this.configuration
+  );
+  private webSocket!: WebSocket;
 
-  peerConnection: RTCPeerConnection;
+  private messageSubject$ = new BehaviorSubject<any>([]);
+  private readonly socketAddress: string = 'ws://localhost:8080/socket';
+  message$ = this.messageSubject$
+    .asObservable()
+    .pipe(scan((acc, val) => acc.concat(val)));
 
-  dataChannel: RTCDataChannel;
-  constructor() {
-    this.conn = new WebSocket('ws://localhost:8080/socket');
-    this.peerConnection = new RTCPeerConnection(this.configuration);
-    this.dataChannel = this.peerConnection.createDataChannel('dataChannel');
-    console.log('channel', this.conn, this.peerConnection, this.dataChannel);
-  }
+  constructor() {}
 
-  send(message: any) {
-    this.conn.send(JSON.stringify(message));
-  }
-
-  addListeners() {
-    console.log('adding listeners');
-    this.dataChannel.onerror = function (error) {
-      console.log('Error:', error);
+  connectToWebSocketServer() {
+    this.webSocket = new WebSocket(this.socketAddress);
+    this.webSocket.onmessage = (message) => {
+      this.handleWebSocketMessage(message);
     };
-    this.dataChannel.onclose = function () {
-      console.log('Data channel is closed');
+    this.peerConnection.onicecandidate = (event) => {
+      if (event.candidate) {
+        this.webSocket.send(JSON.stringify({ candidate: event.candidate }));
+      }
     };
   }
-  createOffer(message: any) {
-    console.log('creating offer');
-    this.peerConnection
-      .createOffer()
-      .then((offer) => {
-        return this.peerConnection.setLocalDescription(offer);
-      })
-      .then(() => {
-        this.send(message);
-        console.log('creating offer');
-      });
-  }
-  handleIceCandidate(event: any) {
-    console.log('icecandidate event: ', event);
-    if (event.candidate) {
-      this.send({ ice: event.candidate });
+
+  handleWebSocketMessage(message: any) {
+    const parsedData = JSON.parse(message.data);
+
+    if (parsedData.sdp) {
+      this.peerConnection.setRemoteDescription(
+        new RTCSessionDescription(parsedData.sdp)
+      );
+      if (parsedData.sdp.type === 'offer') {
+        this.peerConnection
+          .createAnswer()
+          .then((answer) => this.setAndSendDescription(answer));
+      }
+    } else if (parsedData.candidate) {
+      this.peerConnection.addIceCandidate(
+        new RTCIceCandidate(parsedData.candidate)
+      );
+    } else if (parsedData.message) {
+      this.messageSubject$.next([parsedData.message]);
     }
   }
 
-  receiveICECandidate(message: any) {
+  setAndSendDescription(description: any) {
+    this.peerConnection.setLocalDescription(description);
+    this.webSocket.send(JSON.stringify({ sdp: description }));
+  }
+
+  getLocalStream(stream: MediaStream) {
+    stream.getTracks().forEach((track) => {
+      this.peerConnection.addTrack(track, stream);
+    });
+
     this.peerConnection
-      .addIceCandidate(new RTCIceCandidate(message.ice))
-      .catch((e) => console.error(e));
+      .createOffer()
+      .then((offer) => this.setAndSendDescription(offer));
   }
 
-  receiveOffer(message: any) {
-    this.peerConnection
-      .setRemoteDescription(new RTCSessionDescription(message.sdp))
-      .then(() => this.peerConnection.createAnswer())
-      .then((answer) => this.peerConnection.setLocalDescription(answer))
-      .then(() => this.send({ sdp: this.peerConnection.localDescription }))
-      .catch((e) => console.error(e));
-  }
-
-  handleAnswer(answer: any) {
-    this.peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
-  }
-
-  sendChannelMessage(message: any) {
-    this.dataChannel.send(message);
-  }
-
-  receiveChannelMessage(event: any) {
-    console.log('received message:', event.data);
-  }
-
-  createDataChannel() {
-    this.dataChannel.onopen = () => {
-      console.log('data channel is open and ready to be used.');
+  handleIncomingTracks(remoteVideoElement: HTMLVideoElement) {
+    this.peerConnection.ontrack = (event) => {
+      if (remoteVideoElement.srcObject !== event.streams[0]) {
+        remoteVideoElement.srcObject = event.streams[0];
+      }
     };
   }
 
-  createPeerConnection() {
-    this.peerConnection.onicecandidate = this.handleIceCandidate.bind(this);
-    this.peerConnection.ondatachannel = (event) => {
-      this.dataChannel = event.channel;
-      this.addListeners();
-    };
+  sendMessage(text: string) {
+    this.webSocket.send(JSON.stringify({ message: text }));
+  }
+
+  disconnect() {
+    this.webSocket.close();
+    this.peerConnection.close();
   }
 }

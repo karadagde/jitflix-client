@@ -1,7 +1,7 @@
 <p style="margin-top: 100px">receive-stream works!</p>
-<ul *ngIf="message$ | async as messages">
+<ul *ngIf="service.message$ | async as messages">
   <li *ngFor="let message of messages">
     {{ message }}
   </li>
 </ul>
-<video #liveVideoReceiver [autoplay]="false" controls></video>
+<video #liveVideoReceiver autoplay controls></video>
