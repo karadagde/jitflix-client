@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { MessageComponent } from './message/message.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,10 @@ const routes: Routes = [
     path: 'streaming',
     loadChildren: () =>
       import('./streaming/streaming.module').then((m) => m.StreamingModule),
+  },
+  {
+    path: 'message',
+    component: MessageComponent,
   },
   {
     path: '**',

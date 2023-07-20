@@ -20,6 +20,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SideNavDialogComponent } from './side-nav-dialog/side-nav-dialog.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MessageComponent } from './message/message.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     FileUploadComponent,
     HomeComponent,
     SideNavDialogComponent,
+    MessageComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +41,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatIconModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    ReactiveFormsModule,
     MatChipsModule,
     MatToolbarModule,
     MatSidenavModule,
