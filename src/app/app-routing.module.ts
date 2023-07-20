@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { MessageComponent } from './message/message.component';
+
+import { MessageComponent } from './components/message/message.component';
+import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
   {
@@ -9,9 +10,18 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'streaming',
+    path: 'watch',
     loadChildren: () =>
-      import('./streaming/streaming.module').then((m) => m.StreamingModule),
+      import('./features/watch-movie/watch-movie.module').then(
+        (m) => m.WatchMovieModule
+      ),
+  },
+  {
+    path: 'video-call',
+    loadChildren: () =>
+      import('./features/video-call/video-call.module').then(
+        (m) => m.VideoCallModule
+      ),
   },
   {
     path: 'message',

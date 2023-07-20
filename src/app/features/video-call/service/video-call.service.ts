@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, scan } from 'rxjs';
 
 @Injectable()
-export class StreamingService {
+export class VideoCallService {
   private configuration = {
     iceServers: [
       {
@@ -14,9 +14,9 @@ export class StreamingService {
     this.configuration
   );
   private webSocket!: WebSocket;
-
   private messageSubject$ = new BehaviorSubject<any>([]);
   private readonly socketAddress: string = 'ws://localhost:8080/socket';
+
   message$ = this.messageSubject$
     .asObservable()
     .pipe(scan((acc, val) => acc.concat(val)));
@@ -25,7 +25,14 @@ export class StreamingService {
 
   connectToWebSocketServer() {
     this.webSocket = new WebSocket(this.socketAddress);
+    console.log('Connecting to: ' + this.socketAddress);
+    console.log('Connection state: ' + this.webSocket.readyState);
+    console.log('Connection state: ' + this.webSocket.OPEN);
+    console.log('peerConnection', this.peerConnection);
+    console.log(this.webSocket);
+
     this.webSocket.onmessage = (message) => {
+      console.log('Received message: ' + message.data);
       this.handleWebSocketMessage(message);
     };
     this.peerConnection.onicecandidate = (event) => {
@@ -36,6 +43,7 @@ export class StreamingService {
   }
 
   handleWebSocketMessage(message: any): void {
+    console.log('handleWebSocketMessage', message);
     const parsedData = JSON.parse(message.data);
 
     if (parsedData.sdp) {
@@ -78,6 +86,11 @@ export class StreamingService {
       }
     };
   }
+
+  // changeLocalTrackStream(stream: MediaStream) {
+  //   const sender = this.peerConnection.getSenders()[0];
+  //   sender.replaceTrack(stream.getTracks()[0]);
+  // }
 
   sendMessage(text: string) {
     this.webSocket.send(JSON.stringify({ message: text }));

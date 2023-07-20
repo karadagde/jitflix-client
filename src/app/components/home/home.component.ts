@@ -8,8 +8,9 @@ import {
 import { HomeService } from './home.service';
 import { Observable, debounceTime, filter, map } from 'rxjs';
 import { CdkScrollable, ScrollDispatcher } from '@angular/cdk/scrolling';
-import { Movie } from '../interface';
+
 import { Router } from '@angular/router';
+import { Movie } from 'src/app/interface';
 
 @Component({
   selector: 'app-home',
@@ -54,6 +55,6 @@ export class HomeComponent implements OnInit {
   }
 
   navigateToMovie(movie: Movie) {
-    this.route.navigate(['/streaming', movie.id]);
+    this.route.navigate(['/watch', movie.id]);
   }
 }

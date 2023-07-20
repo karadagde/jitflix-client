@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HomeService } from '../home/home.service';
+
 import { Observable } from 'rxjs';
-import { Movie } from '../interface';
+import { Movie } from '../../interface';
+import { HomeService } from '../../components/home/home.service';
 
 @Component({
   selector: 'app-streaming',
-  templateUrl: './streaming.component.html',
-  styleUrls: ['./streaming.component.css'],
+  templateUrl: './watch-movie.component.html',
+  styleUrls: ['./watch-movie.component.css'],
 })
-export class StreamingComponent implements OnInit {
+export class WatchMovieComponent implements OnInit {
   movieId: string | null = null;
   movie$!: Observable<Movie>;
   constructor(

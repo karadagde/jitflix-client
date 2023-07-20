@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LiveStreamingComponent } from './live-streaming.component';
+import { LiveStreamingComponent } from './caller.component';
 
 describe('LiveStreamingComponent', () => {
   let component: LiveStreamingComponent;
@@ -7,9 +7,8 @@ describe('LiveStreamingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LiveStreamingComponent ]
-    })
-    .compileComponents();
+      declarations: [LiveStreamingComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LiveStreamingComponent);
     component = fixture.componentInstance;

@@ -5,19 +5,19 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { StreamingService } from '../live-streaming-service.service';
+import { VideoCallService } from '../service/video-call.service';
 
 @Component({
   selector: 'app-receive-stream',
-  templateUrl: './receive-stream.component.html',
-  styleUrls: ['./receive-stream.component.css'],
-  providers: [StreamingService],
+  templateUrl: './receiver.component.html',
+  styleUrls: ['./receiver.component.css'],
+  providers: [VideoCallService],
 })
-export class ReceiveStreamComponent implements OnInit, OnDestroy {
+export class VideoCallReceiverComponent implements OnInit, OnDestroy {
   @ViewChild('liveVideoReceiver', { static: true })
   liveVideoReceiver!: ElementRef;
 
-  constructor(readonly service: StreamingService) {}
+  constructor(readonly service: VideoCallService) {}
 
   ngOnInit(): void {
     this.service.connectToWebSocketServer();

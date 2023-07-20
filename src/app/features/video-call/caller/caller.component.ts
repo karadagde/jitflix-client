@@ -7,15 +7,15 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject, skip, takeUntil } from 'rxjs';
-import { StreamingService } from './live-streaming-service.service';
+import { VideoCallService } from '../service/video-call.service';
 
 @Component({
   selector: 'app-live-streaming',
-  templateUrl: './live-streaming.component.html',
-  styleUrls: ['./live-streaming.component.css'],
-  providers: [StreamingService],
+  templateUrl: './caller.component.html',
+  styleUrls: ['./caller.component.css'],
+  providers: [VideoCallService],
 })
-export class LiveStreamingComponent implements OnInit, OnDestroy {
+export class VideoCallerComponent implements OnInit, OnDestroy {
   @ViewChild('liveVideo', { static: true }) liveVideo!: ElementRef;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -30,7 +30,7 @@ export class LiveStreamingComponent implements OnInit, OnDestroy {
 
   freeText = new FormControl('');
 
-  constructor(private service: StreamingService) {}
+  constructor(private service: VideoCallService) {}
 
   private selectCamera() {
     return this.form.get('videoOptions')?.value;
@@ -45,6 +45,7 @@ export class LiveStreamingComponent implements OnInit, OnDestroy {
 
   private async setInputDevices(constraints: MediaStreamConstraints) {
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    // this.service.changeLocalTrackStream(stream);
     const video = this.liveVideo.nativeElement;
     video.srcObject = stream;
   }

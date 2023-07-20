@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map, take } from 'rxjs';
-import { Movie, MovieResponse } from '../interface';
+import { Movie, MovieResponse } from 'src/app/interface';
 
 @Injectable()
 export class HomeService {

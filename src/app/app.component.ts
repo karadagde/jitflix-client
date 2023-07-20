@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { SideNavDialogComponent } from './side-nav-dialog/side-nav-dialog.component';
+import { SideNavDialogComponent } from './components/shared/side-nav-dialog/side-nav-dialog.component';
 
 @Component({
   selector: 'app-root',

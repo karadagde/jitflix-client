@@ -11,17 +11,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { FileUploadComponent } from './file-upload/file-upload.component';
-import { FileUploadService } from './file-upload/file-upload.service';
-import { HomeComponent } from './home/home.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { FileUploadService } from './components/file-upload/file-upload.service';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { HomeService } from './home/home.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
-import { SideNavDialogComponent } from './side-nav-dialog/side-nav-dialog.component';
+import { SideNavDialogComponent } from './components/shared/side-nav-dialog/side-nav-dialog.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { MessageComponent } from './message/message.component';
+import { MessageComponent } from './components/message/message.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HomeComponent } from './components/home/home.component';
+import { HomeService } from './components/home/home.service';
 
 @NgModule({
   declarations: [
