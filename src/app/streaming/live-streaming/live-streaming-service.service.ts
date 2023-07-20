@@ -35,7 +35,7 @@ export class StreamingService {
     };
   }
 
-  handleWebSocketMessage(message: any) {
+  handleWebSocketMessage(message: any): void {
     const parsedData = JSON.parse(message.data);
 
     if (parsedData.sdp) {
@@ -56,7 +56,7 @@ export class StreamingService {
     }
   }
 
-  setAndSendDescription(description: any) {
+  setAndSendDescription(description: RTCSessionDescriptionInit) {
     this.peerConnection.setLocalDescription(description);
     this.webSocket.send(JSON.stringify({ sdp: description }));
   }

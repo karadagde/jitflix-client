@@ -30,19 +30,7 @@ export class LiveStreamingComponent implements OnInit, OnDestroy {
 
   freeText = new FormControl('');
 
-  constructor(private service: StreamingService) {
-    // this.liveStreamingService.conn.onmessage = (event) => {
-    //   const data = JSON.parse(event.data);
-    //   console.log('received data 2', data);
-    //   if (data.event === 'candidate') {
-    //     console.log('do I have candidate 2');
-    //     this.liveStreamingService.receiveICECandidate(data.data);
-    //   } else if (data.event === 'answer') {
-    //     console.log('do I have ice 2');
-    //     this.liveStreamingService.handleAnswer(data.data);
-    //   }
-    // };
-  }
+  constructor(private service: StreamingService) {}
 
   private selectCamera() {
     return this.form.get('videoOptions')?.value;
