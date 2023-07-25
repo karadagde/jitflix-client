@@ -1,3 +1,18 @@
+.home-container {
+      height: 100%;
+      overflow: auto;
+
+      -ms-overflow-style: none;
+      /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
+}
+
+.home-container::-webkit-scrollbar {
+      display: none;
+      /* Safari and Chrome */
+}
+
 .example-card {
       height: 500px;
       max-width: 200px;

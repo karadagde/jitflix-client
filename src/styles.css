@@ -10,12 +10,17 @@ html,
 body {
       height: 100%;
       /* overflow: hidden; */
+      -ms-overflow-style: none;
+      /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
 }
 
 body {
       margin: 0;
       font-family: Roboto, "Helvetica Neue", sans-serif;
       /* overflow: hidden; */
+
 }
 
 html,
@@ -25,5 +30,10 @@ app-root {
       margin: 0;
       padding: 0;
       /* overflow: hidden; */
+      color: white
+}
 
+html::-webkit-scrollbar {
+      display: none;
+      /* Safari and Chrome */
 }

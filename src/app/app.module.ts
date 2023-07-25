@@ -22,14 +22,20 @@ import { MessageComponent } from './components/message/message.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
 import { HomeService } from './components/home/home.service';
+import { LoginComponent } from './components/login/login.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { HeaderComponent } from './components/shared/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FileUploadComponent,
     HomeComponent,
+    HeaderComponent,
     SideNavDialogComponent,
     MessageComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,8 +49,10 @@ import { HomeService } from './components/home/home.service';
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     MatChipsModule,
+    MatFormFieldModule,
     MatToolbarModule,
     MatSidenavModule,
+    MatInputModule,
     MatCardModule,
     MatDialogModule,
     ScrollingModule,

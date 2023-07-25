@@ -23,16 +23,12 @@ export class VideoCallService {
 
   constructor() {}
 
-  connectToWebSocketServer() {
+  async connectToWebSocketServer() {
     this.webSocket = new WebSocket(this.socketAddress);
-    console.log('Connecting to: ' + this.socketAddress);
-    console.log('Connection state: ' + this.webSocket.readyState);
-    console.log('Connection state: ' + this.webSocket.OPEN);
-    console.log('peerConnection', this.peerConnection);
-    console.log(this.webSocket);
 
     this.webSocket.onmessage = (message) => {
-      console.log('Received message: ' + message.data);
+      console.dir('Received message: ' + message);
+      console.log(message);
       this.handleWebSocketMessage(message);
     };
     this.peerConnection.onicecandidate = (event) => {
@@ -40,10 +36,17 @@ export class VideoCallService {
         this.webSocket.send(JSON.stringify({ candidate: event.candidate }));
       }
     };
+    // this.webSocket.onopen = (e) => {
+    //   console.log(e);
+    //   console.log('Connection state: ' + this.webSocket.readyState);
+    //   console.log('Connection state: ' + this.webSocket.OPEN);
+    //   console.log('Connected');
+    //   this.createAnswer();
+    // };
   }
 
   handleWebSocketMessage(message: any): void {
-    console.log('handleWebSocketMessage', message);
+    // console.log('handleWebSocketMessage', message);
     const parsedData = JSON.parse(message.data);
 
     if (parsedData.sdp) {
@@ -69,14 +72,24 @@ export class VideoCallService {
     this.webSocket.send(JSON.stringify({ sdp: description }));
   }
 
-  getLocalStream(stream: MediaStream) {
-    stream.getTracks().forEach((track) => {
-      this.peerConnection.addTrack(track, stream);
-    });
-
-    this.peerConnection
-      .createOffer()
-      .then((offer) => this.setAndSendDescription(offer));
+  getLocalStream() {
+    // getLocalStream(stream: MediaStream) {
+    // stream.getTracks().forEach((track) => {
+    //   this.peerConnection.addTrack(track, stream);
+    // });
+    this.webSocket.onopen = (e) => {
+      console.log(e);
+      console.log('Connection state: ' + this.webSocket.readyState);
+      console.log('Connection state: ' + this.webSocket.OPEN);
+      console.log('Connected');
+      // this.createAnswer();
+      this.peerConnection
+        .createOffer()
+        .then((offer) => this.setAndSendDescription(offer));
+    };
+    // this.peerConnection
+    //   .createOffer()
+    //   .then((offer) => this.setAndSendDescription(offer));
   }
 
   handleIncomingTracks(remoteVideoElement: HTMLVideoElement) {
@@ -85,6 +98,15 @@ export class VideoCallService {
         remoteVideoElement.srcObject = event.streams[0];
       }
     };
+  }
+
+  createAnswer() {
+    if (this.webSocket.readyState === 1) {
+      console.log('createAnswer');
+      this.peerConnection
+        .createOffer()
+        .then((offer) => this.setAndSendDescription(offer));
+    }
   }
 
   // changeLocalTrackStream(stream: MediaStream) {

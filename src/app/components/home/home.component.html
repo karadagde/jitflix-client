@@ -1,4 +1,4 @@
-<div cdkScrollable #scrollable style="height: 100vh; overflow: auto">
+<div cdkScrollable #scrollable class="home-container">
   <ng-container *ngIf="movies$ | async as movies">
     <div class="card-container">
       <mat-card class="example-card grow" *ngFor="let movie of movies">

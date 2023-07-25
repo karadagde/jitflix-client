@@ -1,4 +1,4 @@
-<div *ngIf="movie$ | async as movie">
+<div *ngIf="movie$ | async as movie" class="media-container">
   <div class="media-row">
     <div class="video-col">
       <app-vjs-player [movieId]="movie.id"></app-vjs-player>

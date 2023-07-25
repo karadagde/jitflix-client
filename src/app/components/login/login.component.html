@@ -1,0 +1,43 @@
+<div class="login-form">
+  <h1>Login</h1>
+  <form [formGroup]="loginForm">
+    <mat-form-field class="login-form-field">
+      <mat-label>Username</mat-label>
+      <input
+        class="login-input"
+        matInput
+        placeholder="Username"
+        formControlName="username"
+        name="username"
+        required
+        type="text"
+      />
+      <mat-error *ngIf="loginForm.controls['username'].errors"
+        >Only alphanumeric characters are allowed</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field class="login-form-field">
+      <input
+        class="login-input"
+        matInput
+        placeholder="Password"
+        formControlName="password"
+        type="password"
+        name="password"
+        required
+      />
+      <mat-error *ngIf="loginForm.controls['password'].errors"></mat-error>
+    </mat-form-field>
+    <button
+      class="login-button"
+      mat-raised-button
+      (click)="onSubmit()"
+      type="submit"
+    >
+      Login
+    </button>
+  </form>
+  <div class="signup">
+    <p>New to Jitflix? <a routerLink="/register">Register</a></p>
+  </div>
+</div>

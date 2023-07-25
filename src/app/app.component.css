@@ -1,31 +1,51 @@
-.toolbar-spacer {
-      flex: 1 1 auto;
-}
-
 .example-container {
-      /* width: 100%;
-      height: 100%; */
+      width: 100%;
+      height: 100%;
       margin: 0;
-      border: 1px solid #555;
+      /* border: 1px solid #555; */
       overflow: hidden;
 
 }
 
-mat-toolbar {
+/* header>mat-toolbar {
       position: fixed;
       top: 0;
-      z-index: 9990099;
-}
+      z-index: 999;
+} */
 
+/*
 mat-sidenav {
-      width: 300px;
+      width: 27px;
       height: 100%;
-      /* z-index: 1000; */
+      z-index: 1000;
       position: fixed;
       left: 0;
 
       padding: 20px;
+} */
+
+mat-drawer-container {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background-color: black;
+
 }
+
+mat-drawer {
+
+      width: 300px;
+      height: 100%;
+      z-index: 1000;
+      overflow: hidden;
+      background-color: black;
+}
+
+mat-drawer-content {
+      overflow: hidden;
+}
+
+
 
 a {
       text-decoration: none;
@@ -42,13 +62,18 @@ a>span {
 ul {
       list-style-type: none;
       margin: 0;
-      padding: 0 0 0 10px;
-      width: 100%;
-
+      padding: 0 0 0 1.7rem;
+      /* width: 100%; */
+      display: flex;
+      flex-direction: column;
 }
 
+li {
+      margin-top: 0.8rem;
+}
 
-::ng-deep .custom-modalbox {
+/* ::ng-deep .custom-modalbox {
+
 
       transform: translateX(100%);
       transition: transform 0.5s ease-out;
@@ -58,10 +83,11 @@ ul {
       transform: translateX(200%);
 }
 
+
 ::ng-deep .custom-modalbox.animate-close {
       transform: translateX(0%) !important;
       transition: transform 0.5 ease-out;
-}
+} */
 
 
 

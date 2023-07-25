@@ -11,9 +11,11 @@ export class HomeService {
   constructor(private readonly http: HttpClient) {}
 
   getHomeData$(page: number, size: number): void {
-    console.log('do I get called here?');
     this.http
       .get<MovieResponse>('http://localhost:8080/movies/all', {
+        headers: {
+          Authorization: 'Basic ' + btoa('user:password'),
+        },
         params: {
           page,
           size,
@@ -36,6 +38,10 @@ export class HomeService {
   }
 
   getMovie$(id: string): Observable<Movie> {
-    return this.http.get<Movie>('http://localhost:8080/movies/' + id);
+    return this.http.get<Movie>('http://localhost:8080/movies/' + id, {
+      headers: {
+        Authorization: 'Basic ' + btoa('user:password'),
+      },
+    });
   }
 }

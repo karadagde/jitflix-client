@@ -1,12 +1,28 @@
+.media-container {
+      overflow: auto;
+      height: 100%;
+      -ms-overflow-style: none;
+      /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
+      color: white;
+}
+
+.media-container::-webkit-scrollbar {
+      display: none;
+      /* Safari and Chrome */
+}
+
 .media-row {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
       gap: 5rem;
-      margin-top: 7rem;
+      margin-top: 1rem;
       padding: 0 3rem 3rem 3rem;
       justify-content: center;
       overflow-x: hidden;
+      overflow-y: auto;
 }
 
 .media-row>img {
