@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, take } from 'rxjs';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, catchError, map, take } from 'rxjs';
 import { Movie, MovieResponse } from 'src/app/interface';
 
 @Injectable()
@@ -8,7 +9,10 @@ export class HomeService {
   movieSubject: BehaviorSubject<Movie[]> = new BehaviorSubject<Movie[]>([]);
   movies$: Observable<Movie[]> = this.movieSubject.asObservable();
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly router: Router
+  ) {}
 
   getHomeData$(page: number, size: number): void {
     this.http
@@ -19,6 +23,13 @@ export class HomeService {
         },
       })
       .pipe(
+        catchError((err) => {
+          console.log(err.status);
+          if (err.status === 403) {
+            this.router.navigate(['/login']);
+          }
+          return [];
+        }),
         map((response) => {
           const movieWithPoster = response.content.filter(
             (movie) => movie.poster
@@ -34,6 +45,16 @@ export class HomeService {
   }
 
   getMovie$(id: string): Observable<Movie> {
-    return this.http.get<Movie>('http://localhost:8080/api/v1/movies/' + id);
+    return this.http
+      .get<Movie>('http://localhost:8080/api/v1/movies/' + id)
+      .pipe(
+        catchError((err) => {
+          console.log(err.status);
+          if (err.status === 403) {
+            this.router.navigate(['/login']);
+          }
+          return [];
+        })
+      );
   }
 }
