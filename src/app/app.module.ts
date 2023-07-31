@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,6 +26,8 @@ import { LoginComponent } from './components/login/login.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { HeaderComponent } from './components/shared/header/header.component';
+import { AuthInterceptor } from './auth/app-auth.interceptor';
+import { AuthService } from './auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,12 @@ import { HeaderComponent } from './components/shared/header/header.component';
     MatDialogModule,
     ScrollingModule,
   ],
-  providers: [FileUploadService, HomeService],
+  providers: [
+    FileUploadService,
+    HomeService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    AuthService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

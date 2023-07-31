@@ -12,10 +12,7 @@ export class HomeService {
 
   getHomeData$(page: number, size: number): void {
     this.http
-      .get<MovieResponse>('http://localhost:8080/movies/all', {
-        headers: {
-          Authorization: 'Basic ' + btoa('user:password'),
-        },
+      .get<MovieResponse>('http://localhost:8080/api/v1/movies/all', {
         params: {
           page,
           size,
@@ -23,7 +20,6 @@ export class HomeService {
       })
       .pipe(
         map((response) => {
-          console.log(response);
           const movieWithPoster = response.content.filter(
             (movie) => movie.poster
           );
@@ -38,10 +34,6 @@ export class HomeService {
   }
 
   getMovie$(id: string): Observable<Movie> {
-    return this.http.get<Movie>('http://localhost:8080/movies/' + id, {
-      headers: {
-        Authorization: 'Basic ' + btoa('user:password'),
-      },
-    });
+    return this.http.get<Movie>('http://localhost:8080/api/v1/movies/' + id);
   }
 }
