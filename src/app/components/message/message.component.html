@@ -1,0 +1,17 @@
+<div style="margin-top: 5rem; display: flex">
+  <div>
+    <input
+      [formControl]="message"
+      type="text"
+      placeholder="Enter message"
+      matInput
+    />
+    <button (click)="sendMessage()">Send</button>
+  </div>
+  <div>
+    <h1>Message</h1>
+    <ul *ngIf="messageService.message$ | async as messages">
+      <li *ngFor="let message of messages">{{ message }}</li>
+    </ul>
+  </div>
+</div>

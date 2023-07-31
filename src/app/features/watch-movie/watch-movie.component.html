@@ -1,0 +1,63 @@
+<div *ngIf="movie$ | async as movie" class="media-container">
+  <div class="media-row">
+    <div class="video-col">
+      <app-vjs-player [movieId]="movie.id"></app-vjs-player>
+      <div class="movie-data">
+        <h1>{{ movie.title }}</h1>
+        <p>{{ movie.plot }}</p>
+        <p>
+          Rated: <span>{{ movie.rated }}</span>
+        </p>
+        <p>
+          Released:
+          <span>
+            {{ movie.released | date : "mediumDate" }}
+          </span>
+        </p>
+        <p>
+          Runtime: <span>{{ movie.runtime }}</span>
+        </p>
+        <p>
+          Genres:
+          <span *ngFor="let genre of movie.genres; let i = index"
+            >{{ genre }}{{ i !== movie.genres.length - 1 ? ", " : "" }}</span
+          >
+        </p>
+
+        <p>
+          Directors:
+          <span *ngFor="let director of movie.directors; let i = index"
+            >{{ director
+            }}{{ i !== movie.directors.length - 1 ? ", " : "" }}</span
+          >
+        </p>
+        <p>
+          Writers:
+          <span *ngFor="let writer of movie.writers; let i = index"
+            >{{ writer }}{{ i !== movie.writers.length - 1 ? ", " : "" }}</span
+          >
+        </p>
+        <p>
+          Actors:
+          <span *ngFor="let actor of movie.cast; let i = index"
+            >{{ actor }}{{ i !== movie.cast.length - 1 ? ", " : "" }}</span
+          >
+        </p>
+        <p>
+          Full Plot:
+          <span>{{ movie.fullplot }}</span>
+        </p>
+      </div>
+    </div>
+    <img
+      mat-card-image
+      src="{{
+        movie.poster
+          ? movie.poster
+          : 'https://material.angular.io/assets/img/examples/shiba1.jpg'
+      }}"
+      onerror="this.remove()"
+      alt="Photo of a movie.poster"
+    />
+  </div>
+</div>

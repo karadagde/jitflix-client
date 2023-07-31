@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,22 +11,33 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { FileUploadComponent } from './file-upload/file-upload.component';
-import { FileUploadService } from './file-upload/file-upload.service';
-import { HomeComponent } from './home/home.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { FileUploadService } from './components/file-upload/file-upload.service';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { HomeService } from './home/home.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
-import { SideNavDialogComponent } from './side-nav-dialog/side-nav-dialog.component';
+import { SideNavDialogComponent } from './components/shared/side-nav-dialog/side-nav-dialog.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MessageComponent } from './components/message/message.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HomeComponent } from './components/home/home.component';
+import { HomeService } from './components/home/home.service';
+import { LoginComponent } from './components/login/login.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { HeaderComponent } from './components/shared/header/header.component';
+import { AuthInterceptor } from './auth/app-auth.interceptor';
+import { AuthService } from './auth/auth.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     FileUploadComponent,
     HomeComponent,
+    HeaderComponent,
     SideNavDialogComponent,
+    MessageComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,14 +49,22 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatIconModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    ReactiveFormsModule,
     MatChipsModule,
+    MatFormFieldModule,
     MatToolbarModule,
     MatSidenavModule,
+    MatInputModule,
     MatCardModule,
     MatDialogModule,
     ScrollingModule,
   ],
-  providers: [FileUploadService, HomeService],
+  providers: [
+    FileUploadService,
+    HomeService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    AuthService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

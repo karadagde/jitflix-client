@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { SideNavDialogComponent } from './side-nav-dialog/side-nav-dialog.component';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { SideNavDialogComponent } from './components/shared/side-nav-dialog/side-nav-dialog.component';
+import { Router } from '@angular/router';
+import { MatDrawer } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-root',
@@ -9,18 +11,18 @@ import { SideNavDialogComponent } from './side-nav-dialog/side-nav-dialog.compon
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  constructor(private readonly dialog: MatDialog) {}
+  @ViewChild('drawer') drawer!: MatDrawer;
 
-  openDialog(): void {
-    this.dialog.open(SideNavDialogComponent, {
-      width: '250px',
-      height: '100%',
-      position: {
-        left: '-250px',
-        top: '0px',
-      },
-      hasBackdrop: true,
-      panelClass: 'custom-modalbox',
-    });
+  constructor(private readonly router: Router) {}
+  dialogRef: MatDialogRef<SideNavDialogComponent> | undefined;
+
+  toggleDrawer(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.drawer.toggle();
+  }
+
+  navigateToLogin() {
+    this.router.navigate(['/login']);
   }
 }
