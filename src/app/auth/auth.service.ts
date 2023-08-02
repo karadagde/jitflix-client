@@ -13,16 +13,15 @@ export class AuthService {
   login(email: string, password: string): Observable<boolean> {
     const authData = { email: email, password: password };
     return this.http
-      .post<{ token: string }>(
-        'http://localhost:8080/api/v1/auth/authenticate',
-        authData
-      )
+      .post<{
+        access_token: string;
+        refresh_token: string;
+      }>('http://localhost:8080/api/v1/auth/authenticate', authData)
       .pipe(
         map((response) => {
-          if (response.token) {
-            this.setToken(response.token);
+          if (response.access_token) {
+            this.setToken(response);
           }
-
           return this.isAuthenticated;
         }),
         take(1)
@@ -38,15 +37,17 @@ export class AuthService {
     return this.token;
   }
 
-  setToken(token: string) {
-    this.token = token;
+  setToken(tokens: { access_token: string; refresh_token: string }) {
+    this.token = tokens.access_token;
     this.isAuthenticated = true;
-    window.localStorage.setItem('token', token);
+    window.localStorage.setItem('access_token', tokens.access_token);
+    window.localStorage.setItem('refresh_token', tokens.refresh_token);
   }
 
   logout() {
     this.token = '';
     this.isAuthenticated = false;
-    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('access_token');
+    window.localStorage.removeItem('refresh_token');
   }
 }
