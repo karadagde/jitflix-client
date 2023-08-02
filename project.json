@@ -9,7 +9,7 @@
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "options": {
-        "outputPath": "docs",
+        "outputPath": "dist/server-app",
         "allowedCommonJsDependencies": ["video.js"],
         "index": "src/index.html",
         "main": "src/main.ts",
