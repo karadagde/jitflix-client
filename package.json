@@ -40,6 +40,7 @@
     "@nx/workspace": "16.4.0",
     "@schematics/angular": "~15.2.2",
     "@types/jasmine": "~4.3.0",
+    "@vercel/remote-nx": "^1.1.1",
     "@videojs/http-streaming": "^3.0.2",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
