@@ -9,7 +9,7 @@
     "build": {
       "executor": "@nx/js:tsc",
       "options": {
-        "outputPath": "dist/server-app",
+        "outputPath": "dist",
         "allowedCommonJsDependencies": ["video.js"],
         "index": "src/index.html",
         "main": "src/main.ts",
