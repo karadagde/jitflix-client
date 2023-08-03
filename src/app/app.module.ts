@@ -28,6 +28,7 @@ import { MatInputModule } from '@angular/material/input';
 import { HeaderComponent } from './components/shared/header/header.component';
 import { AuthInterceptor } from './auth/app-auth.interceptor';
 import { AuthService } from './auth/auth.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { AuthService } from './auth/auth.service';
     MatCardModule,
     MatDialogModule,
     ScrollingModule,
+    MatSnackBarModule,
   ],
   providers: [
     FileUploadService,

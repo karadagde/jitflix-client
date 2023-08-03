@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, take } from 'rxjs';
+import { Observable, map, retry, take } from 'rxjs';
 
 @Injectable()
 export class AuthService {
   private token: string = '';
   public isAuthenticated: boolean = false;
   constructor(private readonly http: HttpClient) {
-    this.getToken();
+    this.getAccessToken();
   }
 
   login(email: string, password: string): Observable<boolean> {
@@ -28,13 +28,34 @@ export class AuthService {
       );
   }
 
-  getToken() {
-    const localToken = window.localStorage.getItem('token');
+  refreshAccessToken(): Observable<boolean> {
+    const refreshToken = this.getRefreshToken();
+    console.log(refreshToken);
+    return this.http
+      .post('http://localhost:8080/api/v1/auth/refresh-token', {})
+      .pipe(
+        map((response: any) => {
+          console.log(response);
+          if (response.access_token) {
+            this.setToken(response);
+          }
+          return this.isAuthenticated;
+        }),
+        take(1),
+        retry(1)
+      );
+  }
+
+  getAccessToken() {
+    const localToken = window.localStorage.getItem('access_token');
     if (localToken) {
       this.token = localToken;
       this.isAuthenticated = true;
     }
     return this.token;
+  }
+  getRefreshToken() {
+    return window.localStorage.getItem('refresh_token');
   }
 
   setToken(tokens: { access_token: string; refresh_token: string }) {
