@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, retry, take } from 'rxjs';
+import { UserSignup } from '../interface';
+import { UserRole } from '../components/enum/user-role.enum';
 
 @Injectable()
 export class AuthService {
@@ -70,5 +72,29 @@ export class AuthService {
     this.isAuthenticated = false;
     window.localStorage.removeItem('access_token');
     window.localStorage.removeItem('refresh_token');
+  }
+  signup(user: UserSignup) {
+    if (user) {
+      return this.http
+        .post('http://localhost:8080/api/v1/auth/register', {
+          email: user.email,
+          password: user.password,
+          language: user.language,
+          country: user.country,
+          role: UserRole.USER,
+        })
+        .pipe(
+          map((response: any) => {
+            if (response.access_token) {
+              this.setToken(response);
+            }
+            return this.isAuthenticated;
+          }),
+          take(1),
+          retry(1)
+        );
+    } else {
+      throw new Error('User is not defined');
+    }
   }
 }

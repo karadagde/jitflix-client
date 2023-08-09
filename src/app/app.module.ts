@@ -29,6 +29,9 @@ import { HeaderComponent } from './components/shared/header/header.component';
 import { AuthInterceptor } from './auth/app-auth.interceptor';
 import { AuthService } from './auth/auth.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SignupComponent } from './signup/signup.component';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -39,6 +42,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     SideNavDialogComponent,
     MessageComponent,
     LoginComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,7 +63,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatCardModule,
     MatDialogModule,
     ScrollingModule,
+    MatSelectModule,
     MatSnackBarModule,
+    MatOptionModule,
   ],
   providers: [
     FileUploadService,

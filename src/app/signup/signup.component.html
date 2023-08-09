@@ -1,0 +1,103 @@
+<div class="signup-form">
+  <h1>Sign up</h1>
+  <form [formGroup]="signupForm">
+    <mat-form-field class="signup-form-field">
+      <mat-label>Email</mat-label>
+      <input
+        class="signup-input"
+        matInput
+        placeholder="email"
+        formControlName="email"
+        name="email"
+        required
+        type="text"
+        (change)="checkEmail()"
+      />
+      <mat-error *ngIf="signupForm.controls['email'].errors">{{
+        signupForm.controls["email"].errors["emailExists"]
+          ? "Email is already taken"
+          : "Please enter a valid email"
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="signup-form-field">
+      <input
+        class="signup-input"
+        matInput
+        placeholder="password"
+        formControlName="password"
+        type="password"
+        name="password"
+        #password
+        required
+      />
+      <mat-icon class="password-icon" matSuffix (click)="togglePassword()">{{
+        showPassword ? "visibility" : "visibility_off"
+      }}</mat-icon>
+      <mat-error *ngIf="signupForm.controls['password'].errors">{{
+        !signupForm.controls["password"].errors["passwordStrength"].hasNumber
+          ? "Password must contain at least one number"
+          : !signupForm.controls["password"].errors["passwordStrength"].hasUpper
+          ? "Password must contain at least one uppercase letter"
+          : !signupForm.controls["password"].errors["passwordStrength"].hasLower
+          ? "Password must contain at least one lowercase letter"
+          : !signupForm.controls["password"].errors["passwordStrength"]
+              .hasSpecial
+          ? "Password must contain at least one special character"
+          : !signupForm.controls["password"].errors["passwordStrength"]
+              .hasMinLength
+          ? "Password must be at least 8 characters long"
+          : ""
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="signup-form-field">
+      <input
+        #rePassword
+        class="signup-input"
+        matInput
+        placeholder="retype password"
+        formControlName="rePassword"
+        type="password"
+        name="rePassword"
+        required
+      />
+      <mat-icon class="password-icon" matSuffix (click)="togglePassword()">{{
+        showPassword ? "visibility" : "visibility_off"
+      }}</mat-icon>
+      <mat-error *ngIf="signupForm.controls['rePassword'].errors">{{
+        signupForm.controls["rePassword"].errors["passwordMatch"]
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field floatLabel="always">
+      <mat-label>Language</mat-label>
+      <mat-select
+        formControlName="language"
+        name="language"
+        class="select-menu"
+      >
+        <mat-option *ngFor="let language of languages" [value]="language.value">
+          {{ language.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field floatLabel="always">
+      <mat-label>Country</mat-label>
+      <mat-select formControlName="country" name="country" class="select-menu">
+        <mat-option *ngFor="let language of languages" [value]="language.value">
+          {{ language.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      class="signup-button"
+      mat-raised-button
+      (click)="onSubmit()"
+      type="submit"
+    >
+      Sign up
+    </button>
+  </form>
+  <div class="login">
+    <p>Already have an account? <a routerLink="/login">Login</a></p>
+  </div>
+</div>

@@ -7,7 +7,6 @@ export const authGuard = () => {
   const router = inject(Router);
 
   if (authService.isAuthenticated) {
-    console.log('authenticated', authService.isAuthenticated);
     return true;
   }
 

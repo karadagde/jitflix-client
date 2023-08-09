@@ -23,6 +23,5 @@ export class WatchMovieComponent implements OnInit {
     if (this.movieId) {
       this.movie$ = this.service.getMovie$(this.movieId);
     }
-    console.log(this.movieId);
   }
 }
