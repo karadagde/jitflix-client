@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,12 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   @Input() drawer!: MatDrawer;
 
-  constructor(private readonly router: Router) {}
+  isAuthenticated = this.auth.isAuthenticated;
+
+  constructor(
+    private readonly router: Router,
+    private readonly auth: AuthService
+  ) {}
 
   navigateToLogin() {
     this.router.navigate(['/login']);

@@ -72,11 +72,11 @@ export class VideoCallService {
     this.webSocket.send(JSON.stringify({ sdp: description }));
   }
 
-  getLocalStream() {
-    // getLocalStream(stream: MediaStream) {
-    // stream.getTracks().forEach((track) => {
-    //   this.peerConnection.addTrack(track, stream);
-    // });
+  // getLocalStream() {
+  getLocalStream(stream: MediaStream) {
+    stream.getTracks().forEach((track) => {
+      this.peerConnection.addTrack(track, stream);
+    });
     this.webSocket.onopen = (e) => {
       console.log(e);
       console.log('Connection state: ' + this.webSocket.readyState);
@@ -87,9 +87,9 @@ export class VideoCallService {
         .createOffer()
         .then((offer) => this.setAndSendDescription(offer));
     };
-    // this.peerConnection
-    //   .createOffer()
-    //   .then((offer) => this.setAndSendDescription(offer));
+    this.peerConnection
+      .createOffer()
+      .then((offer) => this.setAndSendDescription(offer));
   }
 
   handleIncomingTracks(remoteVideoElement: HTMLVideoElement) {
@@ -109,10 +109,10 @@ export class VideoCallService {
     }
   }
 
-  // changeLocalTrackStream(stream: MediaStream) {
-  //   const sender = this.peerConnection.getSenders()[0];
-  //   sender.replaceTrack(stream.getTracks()[0]);
-  // }
+  changeLocalTrackStream(stream: MediaStream) {
+    const sender = this.peerConnection.getSenders()[0];
+    sender.replaceTrack(stream.getTracks()[0]);
+  }
 
   sendMessage(text: string) {
     this.webSocket.send(JSON.stringify({ message: text }));

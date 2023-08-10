@@ -50,35 +50,35 @@ export class VideoCallerComponent implements OnInit, OnDestroy {
     video.srcObject = stream;
   }
   private async getAndDisplayLocalStream() {
-    // const devices = await navigator.mediaDevices.enumerateDevices();
-    // console.log(devices);
-    // this.videoDevices = devices.filter(
-    //   (device) => device.kind === 'videoinput'
-    // );
-    // this.audioDevices = devices.filter(
-    //   (device) => device.kind === 'audioinput'
-    // );
-    // const defaultAudio = this.audioDevices.find(
-    //   (device) => device.deviceId === 'default'
-    // );
-    // const constraints = {
-    //   audio: {
-    //     echoCancellation: true,
-    //     deviceId: defaultAudio?.deviceId,
-    //   },
-    //   video: {
-    //     deviceId: this.videoDevices[0].deviceId,
-    //   },
-    // };
-    // this.form.patchValue({
-    //   videoOptions: this.videoDevices[0].deviceId,
-    //   audioOptions: defaultAudio?.deviceId,
-    // });
-    // navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-    //   this.liveVideo.nativeElement.srcObject = stream;
-    //   this.service.getLocalStream(stream);
-    // });
-    this.service.getLocalStream();
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    console.log(devices);
+    this.videoDevices = devices.filter(
+      (device) => device.kind === 'videoinput'
+    );
+    this.audioDevices = devices.filter(
+      (device) => device.kind === 'audioinput'
+    );
+    const defaultAudio = this.audioDevices.find(
+      (device) => device.deviceId === 'default'
+    );
+    const constraints = {
+      audio: {
+        echoCancellation: true,
+        deviceId: defaultAudio?.deviceId,
+      },
+      video: {
+        deviceId: this.videoDevices[0].deviceId,
+      },
+    };
+    this.form.patchValue({
+      videoOptions: this.videoDevices[0].deviceId,
+      audioOptions: defaultAudio?.deviceId,
+    });
+    navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+      this.liveVideo.nativeElement.srcObject = stream;
+      this.service.getLocalStream(stream);
+    });
+    // this.service.getLocalStream();
   }
   ngOnInit(): void {
     this.service.connectToWebSocketServer();
