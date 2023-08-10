@@ -60,7 +60,7 @@ export class SignupComponent {
         .signup(this.signupForm.value)
         .subscribe((res: boolean) => {
           if (res) {
-            this.signupForm.reset();
+            this.signupForm.reset('');
             this.router.navigate(['/home']);
           } else {
             throw new Error('Signup failed');
@@ -71,9 +71,8 @@ export class SignupComponent {
 
   checkEmail() {
     const userEmail = this.signupForm.value.email;
-    console.log('do I get here', userEmail);
+
     if (userEmail && this.signupForm.controls['email'].valid) {
-      console.log('check email');
       this.signupService
         .checkEmail(userEmail)
         .pipe(take(1))

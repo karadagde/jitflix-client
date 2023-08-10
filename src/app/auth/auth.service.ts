@@ -18,6 +18,7 @@ export class AuthService {
       .post<{
         access_token: string;
         refresh_token: string;
+        role: UserRole;
       }>('http://localhost:8080/api/v1/auth/authenticate', authData)
       .pipe(
         map((response) => {
@@ -31,13 +32,10 @@ export class AuthService {
   }
 
   refreshAccessToken(): Observable<boolean> {
-    const refreshToken = this.getRefreshToken();
-    console.log(refreshToken);
     return this.http
       .post('http://localhost:8080/api/v1/auth/refresh-token', {})
       .pipe(
         map((response: any) => {
-          console.log(response);
           if (response.access_token) {
             this.setToken(response);
           }
@@ -60,11 +58,16 @@ export class AuthService {
     return window.localStorage.getItem('refresh_token');
   }
 
-  setToken(tokens: { access_token: string; refresh_token: string }) {
+  setToken(tokens: {
+    access_token: string;
+    refresh_token: string;
+    role: UserRole;
+  }) {
     this.token = tokens.access_token;
     this.isAuthenticated = true;
     window.localStorage.setItem('access_token', tokens.access_token);
     window.localStorage.setItem('refresh_token', tokens.refresh_token);
+    window.localStorage.setItem('role', tokens.role);
   }
 
   logout() {
@@ -85,7 +88,7 @@ export class AuthService {
         })
         .pipe(
           map((response: any) => {
-            if (response.access_token) {
+            if (response?.access_token) {
               this.setToken(response);
             }
             return this.isAuthenticated;
