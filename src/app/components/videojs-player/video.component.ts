@@ -8,11 +8,16 @@ import {
 } from '@angular/core';
 
 import videojs from 'video.js';
+// import 'videojs-contrib-quality-levels';
+// import qualityLevels from 'videojs-contrib-quality-levels';
+// import 'videojs-hls-quality-selector';
+import 'videojs-playlist';
+// import 'videojs-playlist-ui';
 
 @Component({
   selector: 'app-vjs-player',
   templateUrl: './video.component.html',
-  styleUrls: ['./video.component.scss'],
+  // styleUrls: ['./video.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class VjsPlayerComponent implements AfterViewInit {
@@ -23,6 +28,9 @@ export class VjsPlayerComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.movieId = 'reloaded';
+
+    console.log(videojs);
+
     const videoPlayer = videojs(this.videoPlayerRef.nativeElement, {
       controls: true,
       controlBar: {
@@ -40,9 +48,6 @@ export class VjsPlayerComponent implements AfterViewInit {
       fluid: true,
       aspectRatio: '16:9',
       playbackRates: [0.5, 1, 1.5, 2],
-      VideoPlaybackQuality: {
-        bandwidth: 800000,
-      },
       sources: [
         {
           src:
@@ -55,7 +60,6 @@ export class VjsPlayerComponent implements AfterViewInit {
       ],
       autoplay: false,
     });
-
-    videoPlayer.play();
+    console.log(videoPlayer);
   }
 }

@@ -20,7 +20,12 @@
           "@angular/material/prebuilt-themes/indigo-pink.css",
           "src/styles.css"
         ],
-        "scripts": ["node_modules/video.js/dist/video.js"]
+        "scripts": [
+          "node_modules/video.js/dist/video.js",
+          "node_modules/videojs-playlist/dist/videojs-playlist.js",
+          "node_modules/videojs-playlist-ui/dist/videojs-playlist-ui.js",
+          "node_modules/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.js"
+        ]
       },
       "configurations": {
         "production": {
