@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs';
-import { Movie } from '../../interface';
 import { HomeService } from '../../components/home/home.service';
+import { Movie } from '../../interface';
 
 @Component({
   selector: 'app-streaming',
   templateUrl: './watch-movie.component.html',
-  styleUrls: ['./watch-movie.component.css'],
+  styleUrls: ['./watch-movie.component.scss'],
 })
 export class WatchMovieComponent implements OnInit {
   movieId: string | null = null;

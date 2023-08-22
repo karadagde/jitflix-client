@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-side-nav-dialog',
   templateUrl: './side-nav-dialog.component.html',
-  styleUrls: ['./side-nav-dialog.component.css'],
+  styleUrls: ['./side-nav-dialog.component.scss'],
 })
 export class SideNavDialogComponent {
   constructor(

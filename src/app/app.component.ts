@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { SideNavDialogComponent } from './components/shared/side-nav-dialog/side-nav-dialog.component';
-import { Router } from '@angular/router';
 import { MatDrawer } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
+import { SideNavDialogComponent } from './components/shared/side-nav-dialog/side-nav-dialog.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {

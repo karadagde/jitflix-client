@@ -1,20 +1,20 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FileUploadService } from './file-upload.service';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import {
-  tap,
-  Observable,
   BehaviorSubject,
+  Observable,
   concatMap,
   delay,
   from,
   take,
+  tap,
 } from 'rxjs';
+import { FileUploadService } from './file-upload.service';
 
 @Component({
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
-  styleUrls: ['./file-upload.component.css'],
+  styleUrls: ['./file-upload.component.scss'],
 })
 export class FileUploadComponent {
   @ViewChild('fileUpload') fileUpload!: ElementRef<HTMLInputElement>;

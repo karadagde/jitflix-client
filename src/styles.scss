@@ -1,0 +1,56 @@
+@import "video.js/dist/video-js.css";
+@import "@videojs/themes/dist/city/index.css";
+@import "@videojs/themes/dist/fantasy/index.css";
+@import "@videojs/themes/dist/forest/index.css";
+@import "@videojs/themes/dist/sea/index.css";
+
+html,
+body {
+  height: 100%;
+  /* overflow: hidden; */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  /* overflow: hidden; */
+}
+
+html,
+body,
+app-root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  /* overflow: hidden; */
+  color: white;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+  /* Safari and Chrome */
+}
+
+/* .vjs-hidden {
+      display: block !important;
+} */
+/* 
+#vjs-quality-selector {
+      pointer-events: none;
+} */
+
+.vjs-quality-selector .vjs-selected-quality-value {
+  pointer-events: none;
+  font-size: 1.5em;
+  line-height: 2;
+  text-align: center;
+}
+
+.vjs-quality-selector > .vjs-quality-selector-menu.vjs-menu {
+  width: 4em;
+  left: 0em;
+}

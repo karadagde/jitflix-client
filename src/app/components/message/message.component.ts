@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { MessageService } from './message.service';
 import { FormControl } from '@angular/forms';
+import { MessageService } from './message.service';
 
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
-  styleUrls: ['./message.component.css'],
+  styleUrls: ['./message.component.scss'],
 })
 export class MessageComponent {
   constructor(readonly messageService: MessageService) {

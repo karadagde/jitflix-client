@@ -18,7 +18,7 @@
         "assets": ["src/favicon.ico", "src/assets"],
         "styles": [
           "@angular/material/prebuilt-themes/indigo-pink.css",
-          "src/styles.css"
+          "src/styles.scss"
         ],
         "scripts": ["node_modules/video.js/dist/video.js"]
       },
@@ -77,7 +77,7 @@
         "assets": ["src/favicon.ico", "src/assets"],
         "styles": [
           "@angular/material/prebuilt-themes/indigo-pink.css",
-          "src/styles.css"
+          "src/styles.scss"
         ],
         "scripts": ["node_modules/video.js/dist/video.js"]
       }

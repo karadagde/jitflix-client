@@ -12,7 +12,7 @@ import { VideoCallService } from '../service/video-call.service';
 @Component({
   selector: 'app-live-streaming',
   templateUrl: './caller.component.html',
-  styleUrls: ['./caller.component.css'],
+  styleUrls: ['./caller.component.scss'],
   providers: [VideoCallService],
 })
 export class VideoCallerComponent implements OnInit, OnDestroy {

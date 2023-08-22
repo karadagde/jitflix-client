@@ -10,7 +10,7 @@ import { VideoCallService } from '../service/video-call.service';
 @Component({
   selector: 'app-receive-stream',
   templateUrl: './receiver.component.html',
-  styleUrls: ['./receiver.component.css'],
+  styleUrls: ['./receiver.component.scss'],
   providers: [VideoCallService],
 })
 export class VideoCallReceiverComponent implements OnInit, OnDestroy {

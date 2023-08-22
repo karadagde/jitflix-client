@@ -1,3 +1,4 @@
+import { CdkScrollable, ScrollDispatcher } from '@angular/cdk/scrolling';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -5,9 +6,8 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { HomeService } from './home.service';
 import { Observable, debounceTime, filter, map } from 'rxjs';
-import { CdkScrollable, ScrollDispatcher } from '@angular/cdk/scrolling';
+import { HomeService } from './home.service';
 
 import { Router } from '@angular/router';
 import { Movie } from 'src/app/interface';
@@ -15,7 +15,7 @@ import { Movie } from 'src/app/interface';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
