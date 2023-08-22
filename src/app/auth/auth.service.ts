@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, retry, take } from 'rxjs';
-import { UserSignup } from '../interface';
 import { UserRole } from '../components/enum/user-role.enum';
+import { UserSignup } from '../interface';
 
 @Injectable()
 export class AuthService {
@@ -65,6 +65,9 @@ export class AuthService {
   }) {
     this.token = tokens.access_token;
     this.isAuthenticated = true;
+    const payload: any = parseJwt(tokens.access_token);
+
+    window.localStorage.setItem('user_id', payload.sub);
     window.localStorage.setItem('access_token', tokens.access_token);
     window.localStorage.setItem('refresh_token', tokens.refresh_token);
     window.localStorage.setItem('role', tokens.role);
@@ -99,5 +102,23 @@ export class AuthService {
     } else {
       throw new Error('User is not defined');
     }
+  }
+}
+
+function parseJwt(token: string): any {
+  try {
+    const base64Url = token.split('.')[1];
+
+    // Replace '-' with '+' and '_' with '/' to make the string Base64 compatible
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+
+    const jsonString = atob(base64);
+
+    const decodedPayload = JSON.parse(jsonString);
+
+    return decodedPayload;
+  } catch (error) {
+    console.error('Error decoding the token:', error);
+    return null;
   }
 }
