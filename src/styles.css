@@ -1,9 +1,8 @@
 @import "~video.js/dist/video-js.css";
-
-/* @import "~@videojs/themes/dist/city/index.css";
+@import "~@videojs/themes/dist/city/index.css";
 @import "~@videojs/themes/dist/fantasy/index.css";
 @import "~@videojs/themes/dist/forest/index.css";
-@import "~@videojs/themes/dist/sea/index.css"; */
+@import "~@videojs/themes/dist/sea/index.css";
 
 
 html,
@@ -36,4 +35,24 @@ app-root {
 html::-webkit-scrollbar {
       display: none;
       /* Safari and Chrome */
+}
+
+/* .vjs-hidden {
+      display: block !important;
+} */
+/* 
+#vjs-quality-selector {
+      pointer-events: none;
+} */
+
+.vjs-quality-selector .vjs-selected-quality-value {
+      pointer-events: none;
+      font-size: 1.5em;
+      line-height: 2;
+      text-align: center;
+}
+
+.vjs-quality-selector>.vjs-quality-selector-menu.vjs-menu {
+      width: 4em;
+      left: 0em;
 }

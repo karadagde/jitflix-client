@@ -10,7 +10,7 @@
       "executor": "@angular-devkit/build-angular:browser",
       "options": {
         "outputPath": "dist/server-app",
-        "allowedCommonJsDependencies": ["video.js"],
+
         "index": "src/index.html",
         "main": "src/main.ts",
         "polyfills": ["zone.js"],
@@ -20,12 +20,7 @@
           "@angular/material/prebuilt-themes/indigo-pink.css",
           "src/styles.css"
         ],
-        "scripts": [
-          "node_modules/video.js/dist/video.js",
-          "node_modules/videojs-playlist/dist/videojs-playlist.js",
-          "node_modules/videojs-playlist-ui/dist/videojs-playlist-ui.js",
-          "node_modules/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.js"
-        ]
+        "scripts": ["node_modules/video.js/dist/video.js"]
       },
       "configurations": {
         "production": {
@@ -49,7 +44,8 @@
           "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
-          "namedChunks": true
+          "namedChunks": true,
+          "outputHashing": "all"
         }
       },
       "defaultConfiguration": "production",
@@ -81,8 +77,7 @@
         "assets": ["src/favicon.ico", "src/assets"],
         "styles": [
           "@angular/material/prebuilt-themes/indigo-pink.css",
-          "src/styles.css",
-          "node_modules/video.js/dist/video-js.css"
+          "src/styles.css"
         ],
         "scripts": ["node_modules/video.js/dist/video.js"]
       }

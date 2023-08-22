@@ -10,7 +10,7 @@ trim_trailing_whitespace = true
 
 [*.ts]
 quote_type = single
-
+remove_unused_imports = true
 [*.md]
 max_line_length = off
 trim_trailing_whitespace = false

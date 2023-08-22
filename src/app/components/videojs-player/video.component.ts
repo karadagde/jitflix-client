@@ -1,65 +1,63 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
   Input,
-  ViewChild,
+  OnDestroy,
   ViewEncapsulation,
 } from '@angular/core';
 
-import videojs from 'video.js';
-// import 'videojs-contrib-quality-levels';
-// import qualityLevels from 'videojs-contrib-quality-levels';
-// import 'videojs-hls-quality-selector';
-import 'videojs-playlist';
-// import 'videojs-playlist-ui';
+import 'video.js';
 
+import { Player } from 'video.js';
+import createQualitySettingsButton, {
+  setSelectedQuality,
+} from './quality-selector';
+import { vjsOptions } from './videojs-options';
+
+declare module 'video.js' {
+  interface Player {
+    qualityLevels: () => any;
+    dispose: () => any;
+  }
+}
+
+declare const videojs: any;
 @Component({
   selector: 'app-vjs-player',
   templateUrl: './video.component.html',
-  // styleUrls: ['./video.component.scss'],
+  styleUrls: ['./video.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VjsPlayerComponent implements AfterViewInit {
-  @ViewChild('videoPlayer', { static: true }) videoPlayerRef!: ElementRef;
+export class VjsPlayerComponent implements AfterViewInit, OnDestroy {
   @Input() movieId!: string;
+
+  private player!: Player;
 
   constructor() {}
 
   ngAfterViewInit(): void {
     this.movieId = 'reloaded';
+    vjsOptions.sources[0].src =
+      'http://localhost:8080/api/v1/movies/watch/' +
+      this.movieId +
+      '/playlist/master.m3u8';
+    this.player = videojs('videoPlayer', vjsOptions);
 
-    console.log(videojs);
-
-    const videoPlayer = videojs(this.videoPlayerRef.nativeElement, {
-      controls: true,
-      controlBar: {
-        volumePanel: {
-          inline: true,
-        },
-        skipButtons: {
-          forward: 10,
-          backward: 10,
-        },
-      },
-      muted: false,
-      poster:
-        'https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SY1000_SX677_AL_.jpg',
-      fluid: true,
-      aspectRatio: '16:9',
-      playbackRates: [0.5, 1, 1.5, 2],
-      sources: [
-        {
-          src:
-            'http://localhost:8080/api/v1/movies/watch/' +
-            this.movieId +
-            '/playlist/local',
-          type: 'application/x-mpegURL',
-          withCredentials: true,
-        },
-      ],
-      autoplay: false,
+    let qualityLevels = this.player.qualityLevels();
+    this.player.qualityLevels().on('addqualitylevel', (event: any) => {
+      event.qualityLevel.enabled = true;
+      createQualitySettingsButton(event.qualityLevel.height, qualityLevels);
     });
-    console.log(videoPlayer);
+
+    this.player.qualityLevels().on('change', () => {
+      setSelectedQuality(qualityLevels[qualityLevels.selectedIndex].height);
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.player) {
+      this.player.dispose();
+    }
   }
 }
