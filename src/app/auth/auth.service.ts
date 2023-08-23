@@ -103,6 +103,10 @@ export class AuthService {
       throw new Error('User is not defined');
     }
   }
+
+  getUserId() {
+    return window.localStorage.getItem('user_id');
+  }
 }
 
 function parseJwt(token: string): any {

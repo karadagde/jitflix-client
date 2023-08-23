@@ -23,6 +23,7 @@
     "@stomp/rx-stomp": "^2.0.0",
     "@stomp/stompjs": "^7.0.0",
     "@types/video.js": "^7.3.52",
+    "@types/videojs-contrib-quality-levels": "^2.0.1",
     "@videojs/themes": "^1.0.1",
     "m3u8-parser": "^6.2.0",
     "rxjs": "~7.8.0",
