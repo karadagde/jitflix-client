@@ -21,6 +21,8 @@ declare module 'video.js' {
     qualityLevels: () => any;
     dispose: () => any;
     currentTime: (time?: number) => any;
+    paused: () => boolean;
+    on: (event: string, callback: () => void) => any;
   }
 }
 
@@ -86,6 +88,27 @@ export class VjsPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
       setSelectedQuality(qualityLevels[qualityLevels.selectedIndex].height);
     });
 
+    this.player.on('pause', () => {
+      this.stopInterval();
+    });
+    this.player.on('play', () => {
+      this.startInterval();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.player) {
+      clearInterval(this.interval);
+      this.interval = null;
+      this.player.dispose();
+    }
+    this.lastStoppedMinuteUpdated.unsubscribe();
+  }
+
+  startInterval() {
+    if (this.interval) {
+      this.stopInterval();
+    }
     this.interval = setInterval(() => {
       this.service.updateViewingHistory(
         this.movieId,
@@ -94,11 +117,8 @@ export class VjsPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     }, 3000);
   }
 
-  ngOnDestroy() {
-    if (this.player) {
-      clearInterval(this.interval);
-      this.player.dispose();
-    }
-    this.lastStoppedMinuteUpdated.unsubscribe();
+  stopInterval() {
+    clearInterval(this.interval);
+    this.interval = null;
   }
 }
