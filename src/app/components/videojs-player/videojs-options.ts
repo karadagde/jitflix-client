@@ -6,8 +6,10 @@ export const vjsOptions = {
     nativeTextTracks: false,
     hls: {
       overrideNative: true,
+      debug: true,
     },
     vhs: {
+      debug: true,
       overrideNative: true,
     },
   },
