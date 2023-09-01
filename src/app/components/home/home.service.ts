@@ -46,7 +46,9 @@ export class HomeService {
 
   getMovie$(id: string): Observable<SingleMovieResponse> {
     return this.http
-      .get<Movie>('http://localhost:8080/api/v1/movies/' + id)
+      .get<Movie>('http://localhost:8080/api/v1/movies/' + id, {
+        withCredentials: true,
+      })
       .pipe(
         tap(console.log),
         catchError((err) => {

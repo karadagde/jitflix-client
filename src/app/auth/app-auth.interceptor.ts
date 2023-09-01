@@ -1,14 +1,14 @@
 import {
+  HttpEvent,
+  HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpHandler,
-  HttpEvent,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Observable, catchError, switchMap, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -26,10 +26,10 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error) => {
         if (
           error.status === 401 &&
-          error.error.error === 'Token Expired' &&
-          !req.url.includes('refresh-token') &&
-          !req.url.includes('register') &&
-          !req.url.includes('authenticate')
+          error.error.error === 'Token Expired'
+          // !req.url.includes('refresh-token') &&
+          // !req.url.includes('register') &&
+          // !req.url.includes('authenticate')
         ) {
           return this.authService.refreshAccessToken().pipe(
             switchMap(() => {
@@ -39,6 +39,7 @@ export class AuthInterceptor implements HttpInterceptor {
                   'Authorization',
                   'Bearer ' + authToken
                 ),
+                withCredentials: true,
               });
               return this.handleRequest(authReq, next);
             }),
@@ -62,23 +63,41 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     if (
-      !req.url.includes('authenticate') &&
-      !req.url.includes('register') &&
+      // !req.url.includes('authenticate') &&
+      // !req.url.includes('register') &&
       !req.url.includes('refresh-token')
     ) {
       const authToken = this.authService.getAccessToken();
       const authRequest = req.clone({
         headers: req.headers.set('Authorization', 'Bearer ' + authToken),
+        withCredentials: true,
       });
       return this.handleRequest(authRequest, next);
     } else if (req.url.includes('refresh-token')) {
       const authToken = this.authService.getRefreshToken();
       const authRequest = req.clone({
         headers: req.headers.set('Authorization', 'Bearer ' + authToken),
+        withCredentials: true,
       });
-      return next.handle(authRequest);
+      return next.handle(authRequest).pipe(
+        catchError(() => {
+          this.router.navigate(['/login']);
+          this.snackBar.open('Please login', '', {
+            duration: 3000,
+          });
+          return throwError(() => new Error('something went wrong'));
+        })
+      );
     }
 
-    return next.handle(req);
+    return next.handle(req).pipe(
+      catchError(() => {
+        this.router.navigate(['/login']);
+        this.snackBar.open('Please login', '', {
+          duration: 3000,
+        });
+        return throwError(() => new Error('something went wrong'));
+      })
+    );
   }
 }
