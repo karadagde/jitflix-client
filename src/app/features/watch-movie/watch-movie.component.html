@@ -1,63 +1,68 @@
-<div *ngIf="movie$ | async as movie" class="media-container">
+<div *ngIf="movieResponse$ | async as movieData" class="media-container">
   <div class="media-row">
     <div class="video-col">
-      <app-vjs-player [movieId]="movie.id"></app-vjs-player>
+      <app-vjs-player [movieId]="movieData.movie.id"></app-vjs-player>
+      <app-comments [comments]="movieData.comments"></app-comments>
       <div class="movie-data">
-        <h1>{{ movie.title }}</h1>
-        <p>{{ movie.plot }}</p>
+        <h1>{{ movieData.movie.title }}</h1>
+        <p>{{ movieData.movie.plot }}</p>
         <p>
-          Rated: <span>{{ movie.rated }}</span>
+          Rated: <span>{{ movieData.movie.rated }}</span>
         </p>
         <p>
           Released:
           <span>
-            {{ movie.released | date : "mediumDate" }}
+            {{ movieData.movie.released | date : "mediumDate" }}
           </span>
         </p>
         <p>
-          Runtime: <span>{{ movie.runtime }}</span>
+          Runtime: <span>{{ movieData.movie.runtime }}</span>
         </p>
         <p>
           Genres:
-          <span *ngFor="let genre of movie.genres; let i = index"
-            >{{ genre }}{{ i !== movie.genres.length - 1 ? ", " : "" }}</span
+          <span *ngFor="let genre of movieData.movie.genres; let i = index"
+            >{{ genre
+            }}{{ i !== movieData.movie.genres.length - 1 ? ", " : "" }}</span
           >
         </p>
 
         <p>
           Directors:
-          <span *ngFor="let director of movie.directors; let i = index"
+          <span
+            *ngFor="let director of movieData.movie.directors; let i = index"
             >{{ director
-            }}{{ i !== movie.directors.length - 1 ? ", " : "" }}</span
+            }}{{ i !== movieData.movie.directors.length - 1 ? ", " : "" }}</span
           >
         </p>
         <p>
           Writers:
-          <span *ngFor="let writer of movie.writers; let i = index"
-            >{{ writer }}{{ i !== movie.writers.length - 1 ? ", " : "" }}</span
+          <span *ngFor="let writer of movieData.movie.writers; let i = index"
+            >{{ writer
+            }}{{ i !== movieData.movie.writers.length - 1 ? ", " : "" }}</span
           >
         </p>
         <p>
           Actors:
-          <span *ngFor="let actor of movie.cast; let i = index"
-            >{{ actor }}{{ i !== movie.cast.length - 1 ? ", " : "" }}</span
+          <span *ngFor="let actor of movieData.movie.cast; let i = index"
+            >{{ actor
+            }}{{ i !== movieData.movie.cast.length - 1 ? ", " : "" }}</span
           >
         </p>
         <p>
           Full Plot:
-          <span>{{ movie.fullplot }}</span>
+          <span>{{ movieData.movie.fullplot }}</span>
         </p>
       </div>
     </div>
     <img
       mat-card-image
       src="{{
-        movie.poster
-          ? movie.poster
+        movieData.movie.poster
+          ? movieData.movie.poster
           : 'https://material.angular.io/assets/img/examples/shiba1.jpg'
       }}"
       onerror="this.remove()"
-      alt="Photo of a movie.poster"
+      alt="Photo of a movieData.movie.poster"
     />
   </div>
 </div>

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, catchError, map, take } from 'rxjs';
-import { Movie, MovieResponse } from 'src/app/interface';
+import { BehaviorSubject, Observable, catchError, map, take, tap } from 'rxjs';
+import { Movie, MovieResponse, SingleMovieResponse } from 'src/app/interface';
 
 @Injectable()
 export class HomeService {
@@ -44,10 +44,11 @@ export class HomeService {
       .subscribe();
   }
 
-  getMovie$(id: string): Observable<Movie> {
+  getMovie$(id: string): Observable<SingleMovieResponse> {
     return this.http
       .get<Movie>('http://localhost:8080/api/v1/movies/' + id)
       .pipe(
+        tap(console.log),
         catchError((err) => {
           console.log(err.status);
           if (err.status === 403) {

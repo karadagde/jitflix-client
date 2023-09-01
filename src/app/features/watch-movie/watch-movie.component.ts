@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { HomeService } from '../../components/home/home.service';
-import { Movie } from '../../interface';
+import { SingleMovieResponse } from '../../interface';
 
 @Component({
   selector: 'app-streaming',
@@ -12,7 +12,7 @@ import { Movie } from '../../interface';
 })
 export class WatchMovieComponent implements OnInit {
   movieId: string | null = null;
-  movie$!: Observable<Movie>;
+  movieResponse$!: Observable<SingleMovieResponse>;
   constructor(
     private route: ActivatedRoute,
     private readonly service: HomeService
@@ -21,7 +21,7 @@ export class WatchMovieComponent implements OnInit {
   ngOnInit(): void {
     this.movieId = this.route.snapshot.paramMap.get('movie');
     if (this.movieId) {
-      this.movie$ = this.service.getMovie$(this.movieId);
+      this.movieResponse$ = this.service.getMovie$(this.movieId);
     }
   }
 }
