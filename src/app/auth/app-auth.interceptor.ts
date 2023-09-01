@@ -33,12 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
         ) {
           return this.authService.refreshAccessToken().pipe(
             switchMap(() => {
-              const authToken = this.authService.getAccessToken();
               const authReq = req.clone({
-                headers: req.headers.set(
-                  'Authorization',
-                  'Bearer ' + authToken
-                ),
                 withCredentials: true,
               });
               return this.handleRequest(authReq, next);
@@ -67,16 +62,12 @@ export class AuthInterceptor implements HttpInterceptor {
       // !req.url.includes('register') &&
       !req.url.includes('refresh-token')
     ) {
-      const authToken = this.authService.getAccessToken();
       const authRequest = req.clone({
-        headers: req.headers.set('Authorization', 'Bearer ' + authToken),
         withCredentials: true,
       });
       return this.handleRequest(authRequest, next);
     } else if (req.url.includes('refresh-token')) {
-      const authToken = this.authService.getRefreshToken();
       const authRequest = req.clone({
-        headers: req.headers.set('Authorization', 'Bearer ' + authToken),
         withCredentials: true,
       });
       return next.handle(authRequest).pipe(

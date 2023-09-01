@@ -68,8 +68,8 @@ export class AuthService {
     const payload: any = parseJwt(tokens.access_token);
 
     window.localStorage.setItem('user_id', payload.sub);
-    window.localStorage.setItem('access_token', tokens.access_token);
-    window.localStorage.setItem('refresh_token', tokens.refresh_token);
+    // window.localStorage.setItem('access_token', tokens.access_token);
+    // window.localStorage.setItem('refresh_token', tokens.refresh_token);
     window.localStorage.setItem('role', tokens.role);
   }
 
