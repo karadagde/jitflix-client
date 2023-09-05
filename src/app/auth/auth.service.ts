@@ -7,6 +7,7 @@ import { UserSignup } from '../interface';
 @Injectable()
 export class AuthService {
   private token: string = '';
+  public xsrfToken: string = '';
   public isAuthenticated: boolean = false;
   constructor(private readonly http: HttpClient) {
     this.getAccessToken();
@@ -17,7 +18,6 @@ export class AuthService {
     return this.http
       .post<{
         access_token: string;
-        refresh_token: string;
         role: UserRole;
       }>('http://localhost:8080/api/v1/auth/authenticate', authData)
       .pipe(
@@ -54,30 +54,37 @@ export class AuthService {
     }
     return this.token;
   }
-  getRefreshToken() {
-    return window.localStorage.getItem('refresh_token');
-  }
+  // getRefreshToken() {
+  //   return window.localStorage.getItem('refresh_token');
+  // }
 
-  setToken(tokens: {
-    access_token: string;
-    refresh_token: string;
-    role: UserRole;
-  }) {
+  setToken(tokens: { access_token: string; role: UserRole }) {
     this.token = tokens.access_token;
-    this.isAuthenticated = true;
     const payload: any = parseJwt(tokens.access_token);
 
     window.localStorage.setItem('user_id', payload.sub);
-    // window.localStorage.setItem('access_token', tokens.access_token);
-    // window.localStorage.setItem('refresh_token', tokens.refresh_token);
+    window.localStorage.setItem('access_token', tokens.access_token);
     window.localStorage.setItem('role', tokens.role);
+    this.isAuthenticated = true;
   }
 
-  logout() {
-    this.token = '';
-    this.isAuthenticated = false;
-    window.localStorage.removeItem('access_token');
-    window.localStorage.removeItem('refresh_token');
+  logout(): Observable<boolean> {
+    return this.http.post('http://localhost:8080/api/v1/logout', {}).pipe(
+      map((response: any) => {
+        console.log(response);
+        if (response) {
+          this.token = '';
+          this.xsrfToken = '';
+          this.isAuthenticated = false;
+          window.localStorage.removeItem('access_token');
+          window.localStorage.removeItem('user_id');
+          window.localStorage.removeItem('role');
+          return true;
+        }
+        return false;
+      }),
+      take(1)
+    );
   }
   signup(user: UserSignup) {
     if (user) {
@@ -106,6 +113,20 @@ export class AuthService {
 
   getUserId() {
     return window.localStorage.getItem('user_id');
+  }
+
+  getInitialXsrfToken() {
+    return this.http.get('http://localhost:8080/api/v1/auth/initial').pipe(
+      map((response: any) => {
+        console.log(response);
+        console.log('making the initial call');
+        if (response) {
+          this.xsrfToken = response.token;
+        }
+        return this.xsrfToken;
+      }),
+      take(1)
+    );
   }
 }
 

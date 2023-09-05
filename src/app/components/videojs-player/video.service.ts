@@ -12,13 +12,19 @@ export class VideoService {
 
   updateViewingHistory(movieId: string, currentTime: number) {
     this.http
-      .post('http://localhost:8080/api/v1/watch/history', {
-        lastStoppedMinute: currentTime,
-        movieId: movieId,
-        appUser: {
-          email: this.authService.getUserId(),
+      .post(
+        'http://localhost:8080/api/v1/watch/history',
+        {
+          lastStoppedMinute: currentTime,
+          movieId: movieId,
+          appUser: {
+            email: this.authService.getUserId(),
+          },
         },
-      })
+        {
+          withCredentials: true,
+        }
+      )
       .pipe(take(1))
       .subscribe();
   }

@@ -1,5 +1,4 @@
 import {
-  HttpClient,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
@@ -16,9 +15,11 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
     private readonly router: Router,
-    private readonly snackBar: MatSnackBar,
-    private readonly http: HttpClient
-  ) {}
+    private readonly snackBar: MatSnackBar
+  ) {
+    console.log('interceptor init');
+    console.log(this.authService.xsrfToken);
+  }
 
   private handleRequest(
     req: HttpRequest<any>,
@@ -26,13 +27,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error) => {
-        if (
-          error.status === 401 &&
-          error.error.error === 'Token Expired'
-          // !req.url.includes('refresh-token') &&
-          // !req.url.includes('register') &&
-          // !req.url.includes('authenticate')
-        ) {
+        if (error.status === 401 && error.error.error === 'Token Expired') {
           return this.authService.refreshAccessToken().pipe(
             switchMap(() => {
               const authReq = req.clone({
@@ -59,25 +54,21 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (
-      // !req.url.includes('authenticate') &&
-      // !req.url.includes('register') &&
-      !req.url.includes('refresh-token')
-    ) {
-      const authRequest = req.clone({
-        withCredentials: true,
-        setHeaders: {
-          'X-XSRF-TOKEN': document.cookie.split('=')[1] || '',
-        },
-        // params: req.params.set('_csrf', document.cookie.split('=')[1] || ''),
-      });
-      console.log(authRequest);
-      console.log('intercepted', document.cookie.split('=')[1]);
+    const xsrfToken = document.cookie
+      ?.split(';')
+      ?.filter((c) => c.includes('XSRF-TOKEN'))[0]
+      ?.split('=')[1];
+
+    const authRequest = req.clone({
+      withCredentials: true,
+      setHeaders: {
+        'X-XSRF-TOKEN': xsrfToken || '',
+      },
+    });
+
+    if (!req.url.includes('refresh-token')) {
       return this.handleRequest(authRequest, next);
     } else if (req.url.includes('refresh-token')) {
-      const authRequest = req.clone({
-        withCredentials: true,
-      });
       return next.handle(authRequest).pipe(
         catchError(() => {
           this.router.navigate(['/login']);

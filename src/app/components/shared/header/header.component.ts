@@ -27,7 +27,10 @@ export class HeaderComponent {
     this.drawer.toggle();
   }
   logout() {
-    this.auth.logout();
-    this.router.navigate(['/login']);
+    this.auth.logout().subscribe((response) => {
+      if (response) {
+        this.navigateToLogin();
+      }
+    });
   }
 }

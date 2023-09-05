@@ -48,6 +48,7 @@ import { SignupComponent } from './signup/signup.component';
   imports: [
     BrowserModule,
     HttpClientModule,
+    // HttpClientXsrfModule.withOptions({ cookieName: 'XSRF-TOKEN' }),
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSlideToggleModule,
