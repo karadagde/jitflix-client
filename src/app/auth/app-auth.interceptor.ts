@@ -1,4 +1,5 @@
 import {
+  HttpClient,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
@@ -15,7 +16,8 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
     private readonly router: Router,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly http: HttpClient
   ) {}
 
   private handleRequest(
@@ -64,7 +66,13 @@ export class AuthInterceptor implements HttpInterceptor {
     ) {
       const authRequest = req.clone({
         withCredentials: true,
+        setHeaders: {
+          'X-XSRF-TOKEN': document.cookie.split('=')[1] || '',
+        },
+        // params: req.params.set('_csrf', document.cookie.split('=')[1] || ''),
       });
+      console.log(authRequest);
+      console.log('intercepted', document.cookie.split('=')[1]);
       return this.handleRequest(authRequest, next);
     } else if (req.url.includes('refresh-token')) {
       const authRequest = req.clone({

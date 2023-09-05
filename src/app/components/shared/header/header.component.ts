@@ -26,4 +26,8 @@ export class HeaderComponent {
     event.stopPropagation();
     this.drawer.toggle();
   }
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
+  }
 }
