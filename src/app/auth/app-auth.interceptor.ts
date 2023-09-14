@@ -16,10 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
     private authService: AuthService,
     private readonly router: Router,
     private readonly snackBar: MatSnackBar
-  ) {
-    console.log('interceptor init');
-    console.log(this.authService.xsrfToken);
-  }
+  ) {}
 
   private handleRequest(
     req: HttpRequest<any>,
@@ -65,7 +62,7 @@ export class AuthInterceptor implements HttpInterceptor {
         'X-XSRF-TOKEN': xsrfToken || '',
       },
     });
-
+    console.log(req);
     if (!req.url.includes('refresh-token')) {
       return this.handleRequest(authRequest, next);
     } else if (req.url.includes('refresh-token')) {

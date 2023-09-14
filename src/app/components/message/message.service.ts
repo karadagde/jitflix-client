@@ -6,30 +6,10 @@ import { BehaviorSubject, scan } from 'rxjs';
   providedIn: 'root',
 })
 export class MessageService {
-  //   private socket!: WebSocket;
-  //   private readonly socketAddress: string = 'ws://localhost:8080/test-endpoint';
-
   private messageSubject$ = new BehaviorSubject<any>([]);
   message$ = this.messageSubject$
     .asObservable()
     .pipe(scan((acc, val) => acc.concat(val)));
-
-  //   handleMessage(data: any) {
-  //     const { channel, message } = data;
-  //     switch (channel) {
-  //       case 'channel1':
-  //         console.log('Message on channel1', message);
-  //         this.messageSubject$.next([message]);
-  //         break;
-  //       case 'channel2':
-  //         console.log('Message on channel2', message);
-
-  //         break;
-  //       default:
-  //         console.log('Unknown channel', message);
-  //         break;
-  //     }
-  //   }
 
   private rxStomp = new RxStomp();
   readonly socketAddress: string = 'ws://localhost:8080/test-endpoint';

@@ -2,7 +2,6 @@ import { ValidatorFn } from '@angular/forms';
 
 export function passwordValidator(): ValidatorFn {
   return (control) => {
-    console.log(control);
     const password = control?.value;
     const hasNumber = /\d/.test(password);
     const hasUpper = /[A-Z]/.test(password);

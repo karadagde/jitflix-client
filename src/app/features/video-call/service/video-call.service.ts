@@ -23,46 +23,40 @@ export class VideoCallService {
 
   constructor() {}
 
-  async connectToWebSocketServer() {
+  connectToWebSocketServer() {
     this.webSocket = new WebSocket(this.socketAddress);
 
     this.webSocket.onmessage = (message) => {
-      console.dir('Received message: ' + message);
-      console.log(message);
       this.handleWebSocketMessage(message);
     };
+
     this.peerConnection.onicecandidate = (event) => {
       if (event.candidate) {
         this.webSocket.send(JSON.stringify({ candidate: event.candidate }));
       }
     };
-    // this.webSocket.onopen = (e) => {
-    //   console.log(e);
-    //   console.log('Connection state: ' + this.webSocket.readyState);
-    //   console.log('Connection state: ' + this.webSocket.OPEN);
-    //   console.log('Connected');
-    //   this.createAnswer();
-    // };
+    this.webSocket.onopen = () => {
+      this.createAnswer();
+    };
   }
 
   handleWebSocketMessage(message: any): void {
-    // console.log('handleWebSocketMessage', message);
-    const parsedData = JSON.parse(message.data);
+    const parsedData = JSON?.parse(message.data);
 
-    if (parsedData.sdp) {
+    if (parsedData?.sdp) {
       this.peerConnection.setRemoteDescription(
         new RTCSessionDescription(parsedData.sdp)
       );
-      if (parsedData.sdp.type === 'offer') {
+      if (parsedData.sdp?.type === 'offer') {
         this.peerConnection
           .createAnswer()
           .then((answer) => this.setAndSendDescription(answer));
       }
-    } else if (parsedData.candidate) {
+    } else if (parsedData?.candidate) {
       this.peerConnection.addIceCandidate(
         new RTCIceCandidate(parsedData.candidate)
       );
-    } else if (parsedData.message) {
+    } else if (parsedData?.message) {
       this.messageSubject$.next([parsedData.message]);
     }
   }
@@ -72,24 +66,14 @@ export class VideoCallService {
     this.webSocket.send(JSON.stringify({ sdp: description }));
   }
 
-  // getLocalStream() {
   getLocalStream(stream: MediaStream) {
     stream.getTracks().forEach((track) => {
       this.peerConnection.addTrack(track, stream);
     });
-    this.webSocket.onopen = (e) => {
-      console.log(e);
-      console.log('Connection state: ' + this.webSocket.readyState);
-      console.log('Connection state: ' + this.webSocket.OPEN);
-      console.log('Connected');
-      // this.createAnswer();
-      this.peerConnection
-        .createOffer()
-        .then((offer) => this.setAndSendDescription(offer));
-    };
-    this.peerConnection
-      .createOffer()
-      .then((offer) => this.setAndSendDescription(offer));
+
+    this.peerConnection.createOffer().then((offer) => {
+      this.setAndSendDescription(offer);
+    });
   }
 
   handleIncomingTracks(remoteVideoElement: HTMLVideoElement) {
@@ -102,7 +86,6 @@ export class VideoCallService {
 
   createAnswer() {
     if (this.webSocket.readyState === 1) {
-      console.log('createAnswer');
       this.peerConnection
         .createOffer()
         .then((offer) => this.setAndSendDescription(offer));
@@ -110,8 +93,15 @@ export class VideoCallService {
   }
 
   changeLocalTrackStream(stream: MediaStream) {
-    const sender = this.peerConnection.getSenders()[0];
-    sender.replaceTrack(stream.getTracks()[0]);
+    const senders = this.peerConnection.getSenders();
+    const tracks: MediaStreamTrack[] = stream.getTracks();
+
+    senders.forEach((sender) => {
+      if (sender && tracks.length > 0) {
+        const match = tracks.find((t) => t?.kind === sender?.track?.kind);
+        sender.replaceTrack(match!);
+      }
+    });
   }
 
   sendMessage(text: string) {

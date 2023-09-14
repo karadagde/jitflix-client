@@ -45,13 +45,13 @@ export class VideoCallerComponent implements OnInit, OnDestroy {
 
   private async setInputDevices(constraints: MediaStreamConstraints) {
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    // this.service.changeLocalTrackStream(stream);
+    this.service.changeLocalTrackStream(stream);
     const video = this.liveVideo.nativeElement;
     video.srcObject = stream;
   }
   private async getAndDisplayLocalStream() {
     const devices = await navigator.mediaDevices.enumerateDevices();
-    console.log(devices);
+
     this.videoDevices = devices.filter(
       (device) => device.kind === 'videoinput'
     );
@@ -78,7 +78,6 @@ export class VideoCallerComponent implements OnInit, OnDestroy {
       this.liveVideo.nativeElement.srcObject = stream;
       this.service.getLocalStream(stream);
     });
-    // this.service.getLocalStream();
   }
   ngOnInit(): void {
     this.service.connectToWebSocketServer();
@@ -107,7 +106,6 @@ export class VideoCallerComponent implements OnInit, OnDestroy {
   }
   sendMessage() {
     const message = this.getText();
-    console.log(message);
     if (message) {
       this.service.sendMessage(message);
       this.freeText.patchValue('');

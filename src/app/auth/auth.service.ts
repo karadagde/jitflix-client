@@ -54,9 +54,6 @@ export class AuthService {
     }
     return this.token;
   }
-  // getRefreshToken() {
-  //   return window.localStorage.getItem('refresh_token');
-  // }
 
   setToken(tokens: { access_token: string; role: UserRole }) {
     this.token = tokens.access_token;
@@ -71,7 +68,6 @@ export class AuthService {
   logout(): Observable<boolean> {
     return this.http.post('http://localhost:8080/api/v1/logout', {}).pipe(
       map((response: any) => {
-        console.log(response);
         if (response) {
           this.token = '';
           this.xsrfToken = '';
