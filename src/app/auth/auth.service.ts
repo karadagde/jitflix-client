@@ -19,7 +19,7 @@ export class AuthService {
       .post<{
         access_token: string;
         role: UserRole;
-      }>('http://jitflix.azurewebsites.net/api/v1/auth/authenticate', authData)
+      }>('https://jitflix.azurewebsites.net/api/v1/auth/authenticate', authData)
       .pipe(
         map((response) => {
           if (response.access_token) {
@@ -33,7 +33,7 @@ export class AuthService {
 
   refreshAccessToken(): Observable<boolean> {
     return this.http
-      .post('http://jitflix.azurewebsites.net/api/v1/auth/refresh-token', {})
+      .post('https://jitflix.azurewebsites.net/api/v1/auth/refresh-token', {})
       .pipe(
         map((response: any) => {
           if (response.access_token) {
@@ -67,7 +67,7 @@ export class AuthService {
 
   logout(): Observable<boolean> {
     return this.http
-      .post('http://jitflix.azurewebsites.net/api/v1/logout', {})
+      .post('https://jitflix.azurewebsites.net/api/v1/logout', {})
       .pipe(
         map((response: any) => {
           if (response) {
@@ -87,7 +87,7 @@ export class AuthService {
   signup(user: UserSignup) {
     if (user) {
       return this.http
-        .post('http://jitflix.azurewebsites.net/api/v1/auth/register', {
+        .post('https://jitflix.azurewebsites.net/api/v1/auth/register', {
           email: user.email,
           password: user.password,
           language: user.language,
@@ -115,7 +115,7 @@ export class AuthService {
 
   getInitialXsrfToken() {
     return this.http
-      .get('http://jitflix.azurewebsites.net/api/v1/auth/initial')
+      .get('https://jitflix.azurewebsites.net/api/v1/auth/initial')
       .pipe(
         map((response: any) => {
           console.log(response);

@@ -13,7 +13,7 @@ export class VideoService {
   updateViewingHistory(movieId: string, currentTime: number) {
     this.http
       .post(
-        'http://jitflix.azurewebsites.net/api/v1/watch/history',
+        'https://jitflix.azurewebsites.net/api/v1/watch/history',
         {
           lastStoppedMinute: currentTime,
           movieId: movieId,
@@ -36,7 +36,7 @@ export class VideoService {
     }
     return this.http
       .get(
-        'http://jitflix.azurewebsites.net/api/v1/watch/history/' +
+        'https://jitflix.azurewebsites.net/api/v1/watch/history/' +
           movieId +
           '/' +
           this.authService.getUserId()

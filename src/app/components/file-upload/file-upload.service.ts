@@ -23,7 +23,7 @@ export class FileUploadService {
     });
 
     return this.http.post(
-      `http://jitflix.azurewebsites.net/videos/upload/large-file/${id}`,
+      `https://jitflix.azurewebsites.net/videos/upload/large-file/${id}`,
       file,
       {
         headers,
