@@ -71,7 +71,8 @@ export class VjsPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   initializePlayer(): void {
     this.movieId = 'reloaded';
     vjsOptions.sources[0].src =
-      'http://192.168.1.248:8080/api/v1/movies/watch/' +
+      'https://jitflix.azurewebsites.net/api/v1/movies/watch/' +
+      // 'http://localhost:8080/api/v1/movies/watch/' +
       this.movieId +
       '/playlist/master.m3u8';
     this.player = videojs('videoPlayer', vjsOptions);

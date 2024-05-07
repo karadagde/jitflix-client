@@ -15,35 +15,46 @@ export class AuthService {
 
   login(email: string, password: string): Observable<boolean> {
     const authData = { email: email, password: password };
-    return this.http
-      .post<{
-        access_token: string;
-        role: UserRole;
-      }>('https://jitflix.azurewebsites.net/api/v1/auth/authenticate', authData)
-      .pipe(
-        map((response) => {
-          if (response.access_token) {
-            this.setToken(response);
-          }
-          return this.isAuthenticated;
-        }),
-        take(1)
-      );
+    return (
+      this.http
+        .post<{
+          access_token: string;
+          role: UserRole;
+        }>(
+          'https://jitflix.azurewebsites.net/api/v1/auth/authenticate',
+          authData
+        )
+        // }>('http://localhost:8080/api/v1/auth/authenticate', authData, {
+        //   withCredentials: true,
+        // })
+        .pipe(
+          map((response) => {
+            if (response.access_token) {
+              this.setToken(response);
+            }
+            return this.isAuthenticated;
+          }),
+          take(1)
+        )
+    );
   }
 
   refreshAccessToken(): Observable<boolean> {
-    return this.http
-      .post('https://jitflix.azurewebsites.net/api/v1/auth/refresh-token', {})
-      .pipe(
-        map((response: any) => {
-          if (response.access_token) {
-            this.setToken(response);
-          }
-          return this.isAuthenticated;
-        }),
-        take(1),
-        retry(1)
-      );
+    return (
+      this.http
+        .post('https://jitflix.azurewebsites.net/api/v1/auth/refresh-token', {})
+        // .post('http://localhost:8080/api/v1/auth/refresh-token', {})
+        .pipe(
+          map((response: any) => {
+            if (response.access_token) {
+              this.setToken(response);
+            }
+            return this.isAuthenticated;
+          }),
+          take(1),
+          retry(1)
+        )
+    );
   }
 
   getAccessToken() {
@@ -69,6 +80,7 @@ export class AuthService {
     return this.http
       .post('https://jitflix.azurewebsites.net/api/v1/logout', {})
       .pipe(
+        // return this.http.post('http://localhost:8080/api/v1/logout', {}).pipe(
         map((response: any) => {
           if (response) {
             this.token = '';
@@ -88,6 +100,7 @@ export class AuthService {
     if (user) {
       return this.http
         .post('https://jitflix.azurewebsites.net/api/v1/auth/register', {
+          // .post('http://localhost:8080/api/v1/auth/register', {
           email: user.email,
           password: user.password,
           language: user.language,
@@ -117,13 +130,14 @@ export class AuthService {
     return this.http
       .get('https://jitflix.azurewebsites.net/api/v1/auth/initial')
       .pipe(
+        // return this.http.get('http://localhost:8080/api/v1/auth/initial').pipe(
         map((response: any) => {
           console.log(response);
           console.log('making the initial call');
           if (response) {
             this.xsrfToken = response.token;
           }
-          return this.xsrfToken;
+          // return this.xsrfToken;
         }),
         take(1)
       );
