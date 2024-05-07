@@ -60,6 +60,7 @@ export class AuthInterceptor implements HttpInterceptor {
       withCredentials: true,
       setHeaders: {
         'X-XSRF-TOKEN': xsrfToken || '',
+        secure: 'true',
       },
     });
     console.log(req);
