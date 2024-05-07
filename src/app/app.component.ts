@@ -1,14 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatDrawer } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
-import { take } from 'rxjs';
-import { AuthService } from './auth/auth.service';
 import { SideNavDialogComponent } from './components/shared/side-nav-dialog/side-nav-dialog.component';
 
 @Component({
@@ -17,13 +10,10 @@ import { SideNavDialogComponent } from './components/shared/side-nav-dialog/side
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   @ViewChild('drawer') drawer!: MatDrawer;
 
-  constructor(
-    private readonly router: Router,
-    private readonly authService: AuthService
-  ) {}
+  constructor(private readonly router: Router) {}
   dialogRef: MatDialogRef<SideNavDialogComponent> | undefined;
 
   toggleDrawer(event: Event) {
@@ -36,7 +26,7 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  ngOnInit() {
-    this.authService.getInitialXsrfToken().pipe(take(1)).subscribe();
-  }
+  // ngOnInit() {
+  //   this.authService.getInitialXsrfToken().pipe(take(1)).subscribe();
+  // }
 }

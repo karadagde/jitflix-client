@@ -22,7 +22,10 @@ export class AuthService {
           role: UserRole;
         }>(
           'https://jitflix.azurewebsites.net/api/v1/auth/authenticate',
-          authData
+          authData,
+          {
+            withCredentials: true,
+          }
         )
         // }>('http://localhost:8080/api/v1/auth/authenticate', authData, {
         //   withCredentials: true,
@@ -42,7 +45,13 @@ export class AuthService {
   refreshAccessToken(): Observable<boolean> {
     return (
       this.http
-        .post('https://jitflix.azurewebsites.net/api/v1/auth/refresh-token', {})
+        .post(
+          'https://jitflix.azurewebsites.net/api/v1/auth/refresh-token',
+          {},
+          {
+            withCredentials: true,
+          }
+        )
         // .post('http://localhost:8080/api/v1/auth/refresh-token', {})
         .pipe(
           map((response: any) => {
@@ -126,22 +135,22 @@ export class AuthService {
     return window.localStorage.getItem('user_id');
   }
 
-  getInitialXsrfToken() {
-    return this.http
-      .get('https://jitflix.azurewebsites.net/api/v1/auth/initial')
-      .pipe(
-        // return this.http.get('http://localhost:8080/api/v1/auth/initial').pipe(
-        map((response: any) => {
-          console.log(response);
-          console.log('making the initial call');
-          if (response) {
-            this.xsrfToken = response.token;
-          }
-          // return this.xsrfToken;
-        }),
-        take(1)
-      );
-  }
+  // getInitialXsrfToken() {
+  //   return this.http
+  //     .get('https://jitflix.azurewebsites.net/api/v1/auth/initial')
+  //     .pipe(
+  //       // return this.http.get('http://localhost:8080/api/v1/auth/initial').pipe(
+  //       map((response: any) => {
+  //         console.log(response);
+  //         console.log('making the initial call');
+  //         if (response) {
+  //           this.xsrfToken = response.token;
+  //         }
+  //         // return this.xsrfToken;
+  //       }),
+  //       take(1)
+  //     );
+  // }
 }
 
 function parseJwt(token: string): any {

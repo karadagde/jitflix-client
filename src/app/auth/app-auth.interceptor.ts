@@ -51,17 +51,17 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const xsrfToken = document.cookie
-      ?.split(';')
-      ?.filter((c) => c.includes('XSRF-TOKEN'))[0]
-      ?.split('=')[1];
+    // const xsrfToken = document.cookie
+    //   ?.split(';')
+    //   ?.filter((c) => c.includes('XSRF-TOKEN'))[0]
+    //   ?.split('=')[1];
 
     const authRequest = req.clone({
       withCredentials: true,
-      setHeaders: {
-        'X-XSRF-TOKEN': xsrfToken || '',
-        secure: 'true',
-      },
+      // setHeaders: {
+      //   'X-XSRF-TOKEN': xsrfToken || '',
+      //   secure: 'true',
+      // },
     });
     console.log(req);
     if (!req.url.includes('refresh-token')) {
