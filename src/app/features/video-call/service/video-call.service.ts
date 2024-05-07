@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, scan } from 'rxjs';
+import { BehaviorSubject, Observable, of, scan, switchMap } from 'rxjs';
 
 @Injectable()
 export class VideoCallService {
+  streams$: Observable<MediaStream[]> = of([]);
+
   private configuration = {
     iceServers: [
       {
@@ -15,7 +17,7 @@ export class VideoCallService {
   );
   private webSocket!: WebSocket;
   private messageSubject$ = new BehaviorSubject<any>([]);
-  private readonly socketAddress: string = 'ws://localhost:8080/socket';
+  private readonly socketAddress: string = 'ws://192.168.1.248:8080/socket';
 
   message$ = this.messageSubject$
     .asObservable()
@@ -81,6 +83,9 @@ export class VideoCallService {
       if (remoteVideoElement.srcObject !== event.streams[0]) {
         remoteVideoElement.srcObject = event.streams[0];
       }
+      this.streams$.pipe(
+        switchMap((streams) => of([...streams, event.streams[0]]))
+      );
     };
   }
 

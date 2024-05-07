@@ -18,6 +18,8 @@ import { VideoCallService } from '../service/video-call.service';
 export class VideoCallerComponent implements OnInit, OnDestroy {
   @ViewChild('liveVideo', { static: true }) liveVideo!: ElementRef;
 
+  // streams$: MediaStream[] = [];
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   videoDevices: MediaDeviceInfo[] = [];

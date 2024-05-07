@@ -16,7 +16,7 @@ export class HomeService {
 
   getHomeData$(page: number, size: number): void {
     this.http
-      .get<MovieResponse>('http://localhost:8080/api/v1/movies/all', {
+      .get<MovieResponse>('http://192.168.1.248:8080/api/v1/movies/all', {
         params: {
           page,
           size,
@@ -46,7 +46,7 @@ export class HomeService {
 
   getMovie$(id: string): Observable<SingleMovieResponse> {
     return this.http
-      .get<Movie>('http://localhost:8080/api/v1/movies/' + id, {
+      .get<Movie>('http://192.168.1.248:8080/api/v1/movies/' + id, {
         withCredentials: true,
       })
       .pipe(

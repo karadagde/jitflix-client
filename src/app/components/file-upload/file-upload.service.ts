@@ -1,5 +1,5 @@
+import { HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -23,7 +23,7 @@ export class FileUploadService {
     });
 
     return this.http.post(
-      `http://localhost:8080/videos/upload/large-file/${id}`,
+      `http://jitflix.azurewebsites.net/videos/upload/large-file/${id}`,
       file,
       {
         headers,

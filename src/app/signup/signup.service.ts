@@ -8,7 +8,7 @@ export class SignupService {
 
   checkEmail(email: string): Observable<boolean> {
     return this.http.get<boolean>(
-      'http://localhost:8080/api/v1/users/user/check/' + email
+      'https://jitflix.azurewebsites.net/api/v1/users/user/check/' + email
     );
   }
 }

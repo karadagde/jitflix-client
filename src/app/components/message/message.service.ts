@@ -12,7 +12,8 @@ export class MessageService {
     .pipe(scan((acc, val) => acc.concat(val)));
 
   private rxStomp = new RxStomp();
-  readonly socketAddress: string = 'ws://localhost:8080/test-endpoint';
+  readonly socketAddress: string =
+    'ws://jitflix.azurewebsites.net/test-endpoint';
 
   configureAndConnect() {
     this.rxStomp.configure({

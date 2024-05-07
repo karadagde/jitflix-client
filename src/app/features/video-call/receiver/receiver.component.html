@@ -1,7 +1,41 @@
-<p style="margin-top: 100px">receive-stream works!</p>
+<video #liveVideoReceiver autoplay controls></video>
+<video #liveVideo autoplay controls></video>
+<div *ngFor="let stream of streams$ | async">
+  <p>test</p>
+  <video autoplay controls [src]="stream"></video>
+</div>
+<p style="margin-top: 100px; color: aliceblue">receive-stream works!</p>
 <ul *ngIf="service.message$ | async as messages">
   <li *ngFor="let message of messages">
     {{ message }}
   </li>
 </ul>
-<video #liveVideoReceiver autoplay controls></video>
+<form [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Video</mat-label>
+    <mat-select formControlName="videoOptions">
+      <mat-option *ngFor="let camera of videoDevices" [value]="camera.deviceId">
+        {{ camera.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Audio</mat-label>
+    <mat-select formControlName="audioOptions">
+      <mat-option
+        *ngFor="let microphone of audioDevices"
+        [value]="microphone.deviceId"
+      >
+        {{ microphone.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>
+<mat-form-field>
+  <mat-label>Socket-message</mat-label>
+  <textarea matInput [formControl]="freeText"> </textarea>
+</mat-form-field>
+<button mat-flat-button color="primary" (click)="sendMessage()" type="button">
+  Send Message
+</button>
