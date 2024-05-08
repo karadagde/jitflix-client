@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, retry, take } from 'rxjs';
+import { ApiConfigService } from '../apiConfigService';
 import { UserRole } from '../components/enum/user-role.enum';
 import { UserSignup } from '../interface';
 
@@ -8,62 +9,56 @@ import { UserSignup } from '../interface';
 export class AuthService {
   private token: string = '';
   public xsrfToken: string = '';
-  public isAuthenticated: boolean = false;
-  constructor(private readonly http: HttpClient) {
+  private isAuthenticated: boolean = false;
+  private baseUrl: string;
+
+  constructor(
+    private readonly http: HttpClient,
+    private readonly apiConfigService: ApiConfigService
+  ) {
     this.getAccessToken();
+    this.baseUrl = this.apiConfigService.apiUrl;
   }
 
   login(email: string, password: string): Observable<boolean> {
     const authData = { email: email, password: password };
-    return (
-      this.http
-        .post<{
-          access_token: string;
-          role: UserRole;
-        }>(
-          'https://jitflix.azurewebsites.net/api/v1/auth/authenticate',
-          authData,
-          {
-            withCredentials: true,
+    return this.http
+      .post<{
+        access_token: string;
+        role: UserRole;
+      }>(`${this.baseUrl}/api/v1/auth/authenticate`, authData, {
+        withCredentials: true,
+      })
+      .pipe(
+        map((response) => {
+          if (response.access_token) {
+            this.setToken(response);
           }
-        )
-        // }>('http://localhost:8080/api/v1/auth/authenticate', authData, {
-        //   withCredentials: true,
-        // })
-        .pipe(
-          map((response) => {
-            if (response.access_token) {
-              this.setToken(response);
-            }
-            return this.isAuthenticated;
-          }),
-          take(1)
-        )
-    );
+          return this.isAuthenticatedUser();
+        }),
+        take(1)
+      );
   }
 
   refreshAccessToken(): Observable<boolean> {
-    return (
-      this.http
-        .post(
-          'https://jitflix.azurewebsites.net/api/v1/auth/refresh-token',
-          {},
-          {
-            withCredentials: true,
+    return this.http
+      .post(
+        `${this.baseUrl}/api/v1/auth/refresh-token`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+      .pipe(
+        map((response: any) => {
+          if (response.access_token) {
+            this.setToken(response);
           }
-        )
-        // .post('http://localhost:8080/api/v1/auth/refresh-token', {})
-        .pipe(
-          map((response: any) => {
-            if (response.access_token) {
-              this.setToken(response);
-            }
-            return this.isAuthenticated;
-          }),
-          take(1),
-          retry(1)
-        )
-    );
+          return this.isAuthenticated;
+        }),
+        take(1),
+        retry(1)
+      );
   }
 
   getAccessToken() {
@@ -86,30 +81,27 @@ export class AuthService {
   }
 
   logout(): Observable<boolean> {
-    return this.http
-      .post('https://jitflix.azurewebsites.net/api/v1/logout', {})
-      .pipe(
-        // return this.http.post('http://localhost:8080/api/v1/logout', {}).pipe(
-        map((response: any) => {
-          if (response) {
-            this.token = '';
-            this.xsrfToken = '';
-            this.isAuthenticated = false;
-            window.localStorage.removeItem('access_token');
-            window.localStorage.removeItem('user_id');
-            window.localStorage.removeItem('role');
-            return true;
-          }
-          return false;
-        }),
-        take(1)
-      );
+    return this.http.post(`${this.baseUrl}/api/v1/logout`, {}).pipe(
+      map((response: any) => {
+        console.log('logout response ' + response);
+        if (response) {
+          this.token = '';
+          this.xsrfToken = '';
+          this.resetAuthentication();
+          window.localStorage.removeItem('access_token');
+          window.localStorage.removeItem('user_id');
+          window.localStorage.removeItem('role');
+          return true;
+        }
+        return false;
+      }),
+      take(1)
+    );
   }
   signup(user: UserSignup) {
     if (user) {
       return this.http
-        .post('https://jitflix.azurewebsites.net/api/v1/auth/register', {
-          // .post('http://localhost:8080/api/v1/auth/register', {
+        .post(`${this.baseUrl}/api/v1/auth/register`, {
           email: user.email,
           password: user.password,
           language: user.language,
@@ -129,6 +121,14 @@ export class AuthService {
     } else {
       throw new Error('User is not defined');
     }
+  }
+
+  public isAuthenticatedUser(): boolean {
+    return this.isAuthenticated;
+  }
+
+  public resetAuthentication(): void {
+    this.isAuthenticated = false;
   }
 
   getUserId() {

@@ -1,20 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of, take } from 'rxjs';
+import { ApiConfigService } from 'src/app/apiConfigService';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Injectable()
 export class VideoService {
+  private baseUrl: string;
+
   constructor(
     private readonly http: HttpClient,
-    private readonly authService: AuthService
-  ) {}
+    private readonly authService: AuthService,
+    private readonly apiConfigService: ApiConfigService
+  ) {
+    this.baseUrl = this.apiConfigService.apiUrl;
+  }
 
   updateViewingHistory(movieId: string, currentTime: number) {
     this.http
       .post(
-        // 'http://localhost:8080/api/v1/watch/history',
-        'https://jitflix.azurewebsites.net/api/v1/watch/history',
+        `${this.baseUrl}/api/v1/watch/history`,
         {
           lastStoppedMinute: currentTime,
           movieId: movieId,
@@ -37,11 +42,9 @@ export class VideoService {
     }
     return this.http
       .get(
-        // 'http://localhost:8080/api/v1/watch/history/' +
-        'https://jitflix.azurewebsites.net/api/v1/watch/history/' +
-          movieId +
-          '/' +
-          this.authService.getUserId()
+        `${
+          this.baseUrl
+        }/api/v1/watch/history/${movieId}/${this.authService.getUserId()}`
       )
       .pipe(take(1));
   }

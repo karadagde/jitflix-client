@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class HeaderComponent {
   @Input() drawer!: MatDrawer;
 
-  isAuthenticated = this.auth.isAuthenticated;
+  isAuthenticated = this.auth.isAuthenticatedUser();
 
   constructor(
     private readonly router: Router,

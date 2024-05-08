@@ -1,14 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ApiConfigService } from '../apiConfigService';
 
 @Injectable()
 export class SignupService {
-  constructor(private readonly http: HttpClient) {}
+  private baseUrl: string;
+  constructor(
+    private readonly http: HttpClient,
+    private readonly apiConfigService: ApiConfigService
+  ) {
+    this.baseUrl = this.apiConfigService.apiUrl;
+  }
 
   checkEmail(email: string): Observable<boolean> {
     return this.http.get<boolean>(
-      'https://jitflix.azurewebsites.net/api/v1/users/user/check/' + email
+      `${this.baseUrl}/api/v1/users/user/check/${email}`
     );
   }
 }

@@ -2,30 +2,31 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, catchError, map, take, tap } from 'rxjs';
+import { ApiConfigService } from 'src/app/apiConfigService';
 import { Movie, MovieResponse, SingleMovieResponse } from 'src/app/interface';
 
 @Injectable()
 export class HomeService {
   movieSubject: BehaviorSubject<Movie[]> = new BehaviorSubject<Movie[]>([]);
   movies$: Observable<Movie[]> = this.movieSubject.asObservable();
+  private baseUrl: string;
 
   constructor(
     private readonly http: HttpClient,
-    private readonly router: Router
-  ) {}
+    private readonly router: Router,
+    private readonly apiConfigService: ApiConfigService
+  ) {
+    this.baseUrl = this.apiConfigService.apiUrl;
+  }
 
   getHomeData$(page: number, size: number): void {
     this.http
-      .get<MovieResponse>(
-        'https://jitflix.azurewebsites.net/api/v1/movies/all',
-        {
-          // .get<MovieResponse>('http://localhost:8080/api/v1/movies/all', {
-          params: {
-            page,
-            size,
-          },
-        }
-      )
+      .get<MovieResponse>(`${this.baseUrl}/api/v1/movies/all`, {
+        params: {
+          page,
+          size,
+        },
+      })
       .pipe(
         catchError((err) => {
           console.log(err.status);
@@ -50,8 +51,7 @@ export class HomeService {
 
   getMovie$(id: string): Observable<SingleMovieResponse> {
     return this.http
-      .get<Movie>('https://jitflix.azurewebsites.net/api/v1/movies/' + id, {
-        // .get<Movie>('http://localhost:8080/api/v1/movies/' + id, {
+      .get<Movie>(`${this.baseUrl}/api/v1/movies/${id}`, {
         withCredentials: true,
       })
       .pipe(
