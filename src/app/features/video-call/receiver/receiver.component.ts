@@ -84,7 +84,7 @@ export class VideoCallReceiverComponent implements OnInit, OnDestroy {
     });
   }
   ngOnInit(): void {
-    this.service.connectToWebSocketServer();
+    this.service.connectToWebSocketServer('testroom1');
 
     this.service.handleIncomingTracks(this.liveVideoReceiver.nativeElement);
     this.getAndDisplayLocalStream();

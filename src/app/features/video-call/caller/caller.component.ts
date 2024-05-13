@@ -32,7 +32,7 @@ export class VideoCallerComponent implements OnInit, OnDestroy {
 
   freeText = new FormControl('');
 
-  constructor(private service: VideoCallService) {}
+  constructor(readonly service: VideoCallService) {}
 
   private selectCamera() {
     return this.form.get('videoOptions')?.value;
@@ -82,7 +82,7 @@ export class VideoCallerComponent implements OnInit, OnDestroy {
     });
   }
   ngOnInit(): void {
-    this.service.connectToWebSocketServer();
+    this.service.connectToWebSocketServer('testroom1');
     this.getAndDisplayLocalStream();
     this.form.valueChanges
       .pipe(skip(1), takeUntil(this.destroy$))
@@ -102,9 +102,9 @@ export class VideoCallerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.service.disconnect();
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
-    this.service.disconnect();
   }
   sendMessage() {
     const message = this.getText();

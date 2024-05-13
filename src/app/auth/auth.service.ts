@@ -41,6 +41,7 @@ export class AuthService {
   }
 
   refreshAccessToken(): Observable<boolean> {
+    console.log('refreshing token');
     return this.http
       .post(
         `${this.baseUrl}/api/v1/auth/refresh-token`,

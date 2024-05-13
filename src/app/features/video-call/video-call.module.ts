@@ -10,10 +10,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 import { VideoCallerComponent } from './caller/caller.component';
 import { VideoCallReceiverComponent } from './receiver/receiver.component';
-// import { VideoCallService } from './service/video-call.service';
+import { VideoCallService } from './service/video-call.service';
+import { VideoCallHomeComponent } from './video-call-home/video-call-home.component';
 
 @NgModule({
-  declarations: [VideoCallerComponent, VideoCallReceiverComponent],
+  declarations: [
+    VideoCallerComponent,
+    VideoCallReceiverComponent,
+    VideoCallHomeComponent,
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -24,11 +29,11 @@ import { VideoCallReceiverComponent } from './receiver/receiver.component';
     MatInputModule,
     MatButtonModule,
     RouterModule.forChild([
-      { path: 'call', component: VideoCallerComponent },
-      { path: 'answer', component: VideoCallReceiverComponent },
+      { path: '', component: VideoCallHomeComponent },
+      { path: 'join', component: VideoCallReceiverComponent },
+      { path: 'start/videomeeting', component: VideoCallerComponent },
     ]),
   ],
-  exports: [],
-  // providers: [VideoCallService],
+  providers: [VideoCallService],
 })
 export class VideoCallModule {}

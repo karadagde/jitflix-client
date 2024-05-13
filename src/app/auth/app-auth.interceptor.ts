@@ -24,6 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error) => {
+        console.log('what is it ' + error);
         if (error.status === 401 && error.error.error === 'Token Expired') {
           return this.authService.refreshAccessToken().pipe(
             switchMap(() => {

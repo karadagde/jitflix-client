@@ -17,7 +17,7 @@ export class VideoCallService {
   );
   private webSocket!: WebSocket;
   private messageSubject$ = new BehaviorSubject<any>([]);
-  private readonly socketAddress: string = 'ws://192.168.1.248:8080/socket';
+  private readonly socketAddress: string = 'ws://localhost:8080/video-call';
 
   message$ = this.messageSubject$
     .asObservable()
@@ -25,8 +25,8 @@ export class VideoCallService {
 
   constructor() {}
 
-  connectToWebSocketServer() {
-    this.webSocket = new WebSocket(this.socketAddress);
+  connectToWebSocketServer(roomId: string) {
+    this.webSocket = new WebSocket(this.socketAddress + '/' + roomId);
 
     this.webSocket.onmessage = (message) => {
       this.handleWebSocketMessage(message);
@@ -114,7 +114,7 @@ export class VideoCallService {
   }
 
   disconnect() {
-    this.webSocket.close();
+    this.webSocket.close(1001);
     this.peerConnection.close();
   }
 }

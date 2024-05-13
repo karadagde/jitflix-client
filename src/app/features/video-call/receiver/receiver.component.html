@@ -1,7 +1,7 @@
 <video #liveVideoReceiver autoplay controls></video>
 <video #liveVideo autoplay controls></video>
 <div *ngFor="let stream of streams$ | async">
-  <p>test</p>
+  <p style="color: white">test</p>
   <video autoplay controls [src]="stream"></video>
 </div>
 <p style="margin-top: 100px; color: aliceblue">receive-stream works!</p>

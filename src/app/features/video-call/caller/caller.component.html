@@ -1,5 +1,10 @@
 <div class="liveStream-container">
   <video #liveVideo autoplay controls></video>
+  <ul *ngIf="service.message$ | async as messages">
+    <li *ngFor="let message of messages">
+      {{ message }}
+    </li>
+  </ul>
   <form [formGroup]="form">
     <mat-form-field>
       <mat-label>Video</mat-label>
