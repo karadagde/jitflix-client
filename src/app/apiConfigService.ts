@@ -6,8 +6,13 @@ import { environment } from 'src/environments/environment';
 })
 export class ApiConfigService {
   private _apiUrl = environment.apiUrl;
+  private _ws = environment.wsUrl;
 
   get apiUrl(): string {
     return this._apiUrl;
+  }
+
+  get ws(): string {
+    return this._ws;
   }
 }

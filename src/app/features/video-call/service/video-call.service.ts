@@ -5,7 +5,7 @@ import { ApiConfigService } from 'src/app/apiConfigService';
 @Injectable()
 export class VideoCallService {
   streams$: Observable<MediaStream[]> = of([]);
-  private baseUrl: string = this.apiConfigService.apiUrl;
+  private baseUrl: string = this.apiConfigService.ws;
   private configuration = {
     iceServers: [
       {
@@ -13,15 +13,13 @@ export class VideoCallService {
       },
     ],
   };
-  constructor(private readonly apiConfigService: ApiConfigService) {
-    // this.baseUrl = this.apiConfigService.apiUrl;
-  }
+  constructor(private readonly apiConfigService: ApiConfigService) {}
   private peerConnection: RTCPeerConnection = new RTCPeerConnection(
     this.configuration
   );
   private webSocket!: WebSocket;
   private messageSubject$ = new BehaviorSubject<any>([]);
-  private readonly socketAddress: string = `wss://${this.baseUrl}/video-call`;
+  private readonly socketAddress: string = `${this.baseUrl}/video-call`;
 
   message$ = this.messageSubject$
     .asObservable()
