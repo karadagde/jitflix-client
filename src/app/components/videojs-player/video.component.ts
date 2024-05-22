@@ -9,6 +9,7 @@ import {
 import 'video.js';
 
 import { BehaviorSubject, map, take } from 'rxjs';
+import { ApiConfigService } from 'src/app/apiConfigService';
 import { Player } from 'video.js';
 import createQualitySettingsButton, {
   setSelectedQuality,
@@ -39,11 +40,16 @@ export class VjsPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   private lastStoppedMinute: number = 0;
   private interval: any;
   private lastStoppedMinuteUpdated = new BehaviorSubject<boolean>(false);
-
-  constructor(private readonly service: VideoService) {}
+  private baseUrl: string;
+  constructor(
+    private readonly service: VideoService,
+    private readonly apiConfigService: ApiConfigService
+  ) {
+    this.baseUrl = this.apiConfigService.apiUrl;
+  }
 
   ngOnInit(): void {
-    this.movieId = 'reloaded';
+    this.movieId = '573a139bf29313caabcf3d23'; // hardcoded for testing
     this.service
       .getViewingHistory(this.movieId)
       .pipe(
@@ -69,12 +75,13 @@ export class VjsPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   initializePlayer(): void {
-    this.movieId = 'reloaded';
-    vjsOptions.sources[0].src =
-      'https://jitflix.azurewebsites.net/api/v1/movies/watch/' +
-      // 'http://localhost:8080/api/v1/movies/watch/' +
-      this.movieId +
-      '/playlist/master.m3u8';
+    // this.movieId = 'reloaded';
+    this.movieId = '573a139bf29313caabcf3d23'; // hardcoded for testing
+    vjsOptions.sources[0].src = `${this.baseUrl}/api/v1/movies/watch/${this.movieId}/playlist`;
+    // 'https://jitflix.azurewebsites.net/api/v1/movies/watch/' +
+    // 'http://localhost:8080/api/v1/movies/watch/' +
+    // this.movieId +
+    // '/playlist/master.m3u8';
     this.player = videojs('videoPlayer', vjsOptions);
 
     this.player.currentTime(this.lastStoppedMinute);
