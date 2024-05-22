@@ -1,5 +1,5 @@
+<video #hostVideo autoplay controls id="host"></video>
 <video #liveVideoReceiver autoplay controls></video>
-<video #liveVideo autoplay controls></video>
 <div *ngFor="let stream of streams$ | async">
   <p style="color: white">test</p>
   <video autoplay controls [src]="stream"></video>

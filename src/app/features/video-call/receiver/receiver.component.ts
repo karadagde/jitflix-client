@@ -19,7 +19,7 @@ export class VideoCallReceiverComponent implements OnInit, OnDestroy {
   @ViewChild('liveVideoReceiver', { static: true })
   liveVideoReceiver!: ElementRef;
 
-  @ViewChild('liveVideo', { static: true }) liveVideo!: ElementRef;
+  @ViewChild('hostVideo', { static: true }) hostVideo!: ElementRef;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -50,7 +50,7 @@ export class VideoCallReceiverComponent implements OnInit, OnDestroy {
   private async setInputDevices(constraints: MediaStreamConstraints) {
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
     this.service.changeLocalTrackStream(stream);
-    const video = this.liveVideo.nativeElement;
+    const video = this.hostVideo.nativeElement;
     video.srcObject = stream;
   }
   private async getAndDisplayLocalStream() {
@@ -79,12 +79,12 @@ export class VideoCallReceiverComponent implements OnInit, OnDestroy {
       audioOptions: defaultAudio?.deviceId,
     });
     navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-      this.liveVideo.nativeElement.srcObject = stream;
+      this.hostVideo.nativeElement.srcObject = stream;
       this.service.getLocalStream(stream);
     });
   }
   ngOnInit(): void {
-    this.service.connectToWebSocketServer('testroom1');
+    this.service.connectToWebSocketServer('testroom1', 'participant');
 
     this.service.handleIncomingTracks(this.liveVideoReceiver.nativeElement);
     this.getAndDisplayLocalStream();

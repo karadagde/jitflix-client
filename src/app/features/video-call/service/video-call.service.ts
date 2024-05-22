@@ -25,11 +25,11 @@ export class VideoCallService {
 
   constructor() {}
 
-  connectToWebSocketServer(roomId: string) {
+  connectToWebSocketServer(roomId: string, callerType: string) {
     this.webSocket = new WebSocket(this.socketAddress + '/' + roomId);
 
     this.webSocket.onmessage = (message) => {
-      this.handleWebSocketMessage(message);
+      this.handleWebSocketMessage(message, callerType);
     };
 
     this.peerConnection.onicecandidate = (event) => {
@@ -38,18 +38,20 @@ export class VideoCallService {
       }
     };
     this.webSocket.onopen = () => {
-      this.createAnswer();
+      console.log('WebSocket connection opened');
+      this.createAnswer(callerType);
     };
   }
 
-  handleWebSocketMessage(message: any): void {
+  handleWebSocketMessage(message: any, callerType: string): void {
     const parsedData = JSON?.parse(message.data);
 
+    console.log('parsedData', parsedData);
     if (parsedData?.sdp) {
       this.peerConnection.setRemoteDescription(
         new RTCSessionDescription(parsedData.sdp)
       );
-      if (parsedData.sdp?.type === 'offer') {
+      if (parsedData.sdp?.type === 'offer' && callerType === 'participant') {
         this.peerConnection
           .createAnswer()
           .then((answer) => this.setAndSendDescription(answer));
@@ -79,6 +81,7 @@ export class VideoCallService {
   }
 
   handleIncomingTracks(remoteVideoElement: HTMLVideoElement) {
+    console.log('handleIncomingTracks');
     this.peerConnection.ontrack = (event) => {
       if (remoteVideoElement.srcObject !== event.streams[0]) {
         remoteVideoElement.srcObject = event.streams[0];
@@ -89,8 +92,9 @@ export class VideoCallService {
     };
   }
 
-  createAnswer() {
-    if (this.webSocket.readyState === 1) {
+  createAnswer(callerType: string) {
+    console.log('createAnswer');
+    if (this.webSocket.readyState === 1 && callerType === 'host') {
       this.peerConnection
         .createOffer()
         .then((offer) => this.setAndSendDescription(offer));
@@ -98,6 +102,8 @@ export class VideoCallService {
   }
 
   changeLocalTrackStream(stream: MediaStream) {
+    console.log('changeLocalTrackStream');
+    console.log(stream);
     const senders = this.peerConnection.getSenders();
     const tracks: MediaStreamTrack[] = stream.getTracks();
 
