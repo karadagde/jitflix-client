@@ -82,7 +82,10 @@ export class VideoCallerComponent implements OnInit, OnDestroy {
     });
   }
   ngOnInit(): void {
-    this.service.connectToWebSocketServer('testroom1', 'host');
+    this.service.connectToWebSocketServer(
+      'd8107262-9a55-4a76-8f18-33fb15aaf0de',
+      'host'
+    );
     this.getAndDisplayLocalStream();
     this.form.valueChanges
       .pipe(skip(1), takeUntil(this.destroy$))
