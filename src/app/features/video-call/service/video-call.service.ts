@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, scan, switchMap } from 'rxjs';
+import { ApiConfigService } from 'src/app/apiConfigService';
 
 @Injectable()
 export class VideoCallService {
   streams$: Observable<MediaStream[]> = of([]);
-
+  private baseUrl: string = this.apiConfigService.apiUrl;
   private configuration = {
     iceServers: [
       {
@@ -12,18 +13,19 @@ export class VideoCallService {
       },
     ],
   };
+  constructor(private readonly apiConfigService: ApiConfigService) {
+    // this.baseUrl = this.apiConfigService.apiUrl;
+  }
   private peerConnection: RTCPeerConnection = new RTCPeerConnection(
     this.configuration
   );
   private webSocket!: WebSocket;
   private messageSubject$ = new BehaviorSubject<any>([]);
-  private readonly socketAddress: string = 'ws://localhost:8080/video-call';
+  private readonly socketAddress: string = `wss://${this.baseUrl}/video-call`;
 
   message$ = this.messageSubject$
     .asObservable()
     .pipe(scan((acc, val) => acc.concat(val)));
-
-  constructor() {}
 
   connectToWebSocketServer(roomId: string, callerType: string) {
     this.webSocket = new WebSocket(this.socketAddress + '/' + roomId);
